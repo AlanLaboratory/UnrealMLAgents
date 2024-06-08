@@ -1,0 +1,29 @@
+{
+	"FileVersion": 3,
+	"Version": 1,
+	"VersionName": "1.0",
+	"FriendlyName": "DRL",
+	"Description": "DRL Data serializer",
+	"Category": "Other",
+	"CreatedBy": "Stephane Capponi",
+	"CreatedByURL": "",
+	"DocsURL": "",
+	"MarketplaceURL": "",
+	"SupportURL": "",
+	"CanContainContent": true,
+	"IsBetaVersion": false,
+	"IsExperimentalVersion": false,
+	"Installed": false,
+	"Modules": [
+		{
+			"name": "DRL",
+			"type": "Runtime",
+			"loadingphase": "Default"
+		},
+		{
+			"name": "Communicator",
+			"type": "Runtime",
+			"loadingphase": "PreDefault"
+		}
+	]
+}
