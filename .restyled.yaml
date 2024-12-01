@@ -1,0 +1,93 @@
+
+# Do anything at all
+enabled: true
+
+# Push the style fixes directly to the original PR
+auto: false
+
+# Open Restyle PRs?
+pull_requests: true
+
+# Add labels to any created Restyle PRs
+labels:
+    - restyled
+
+# Labels to ignore
+ignore_labels:
+    - restyled-ignore
+
+# Leave comments on the original PR linking to the Restyle PR?
+comments: false
+
+# Request review on the Restyle PR
+request_review: none
+
+# Patterns to exclude from all Restylers
+# exclude:
+#     - ".github/workflows/**/*" # https://github.com/restyled-io/restyler/issues/73
+#     - ".github/workflows/*" # https://github.com/restyled-io/restyler/issues/73
+#     - ".github/**/*" # https://github.com/restyled-io/restyler/issues/73
+    # - ".github/*" # https://github.com/restyled-io/restyler/issues/73
+
+changed_paths:
+    maximum: 100000
+    outcome: error
+
+# Restylers to run, and how
+restylers:
+    - name: whitespace
+      enabled: true
+      image: restyled/restyler-whitespace:v0.2.0.0
+      command:
+          - whitespace
+      arguments: []
+      include:
+          - "**/*.yml"
+          - "**/*.yaml"
+          - ".**/*.yml"
+          - ".**/*.yaml"
+          - "**/*.sh"
+          - "**/*.c"
+          - "**/*.cc"
+          - "**/*.cpp"
+          - "**/*.cs"
+          - "**/*.h"
+          - "**/*.hpp"
+          - "**/*.json"
+          - ".**/*.json"
+    - name: clang-format
+      enabled: true
+      image: restyled/restyler-clang-format:v18.1.8
+      command:
+          - clang-format
+          - "-i"
+      arguments: []
+      include:
+          - "**/*.c"
+          - "**/*.cc"
+          - "**/*.cpp"
+          - "**/*.cs"
+          - "**/*.h"
+          - "**/*.hpp"
+      interpreters: []
+    - name: prettier-yaml
+      image: restyled/restyler-prettier:v3.3.3-2
+      enabled: true
+      command:
+          - prettier
+          - "--write"
+      include:
+          - "**/*.yml"
+          - "**/*.yaml"
+    # - name: autopep8
+    #   image: restyled/restyler-autopep8:v2.0.0
+    #   command:
+    #       - autopep8
+    #       - "--in-place"
+    #       - "--max-line-length"
+    #       - "132"
+    #   arguments: []
+    #   include:
+    #       - "**/*.py"
+    #   interpreters:
+    #       - python
