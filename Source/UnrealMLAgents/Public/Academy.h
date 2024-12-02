@@ -156,7 +156,8 @@ public:
 	 *
 	 * This method return True if the Academy has been well initialized.
 	 */
-	static bool IsInitialized() {
+	static bool IsInitialized()
+	{
 		return Instance != nullptr;
 	}
 
