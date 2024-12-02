@@ -1,0 +1,24 @@
+{
+	"FileVersion": 3,
+	"Version": 1,
+	"VersionName": "1.0",
+	"FriendlyName": "UnrealMLAgents",
+	"Description": "A plugin for Unreal Engine enabling Deep Reinforcement Learning, inspired by Unity ML-Agents.",
+	"Category": "Machine Learning",
+	"CreatedBy": "AlanLaboratory, Stephane Capponi",
+	"CreatedByURL": "",
+	"DocsURL": "",
+	"MarketplaceURL": "",
+	"SupportURL": "",
+	"CanContainContent": true,
+	"IsBetaVersion": false,
+	"IsExperimentalVersion": false,
+	"Installed": false,
+	"Modules": [
+		{
+			"name": "UnrealMLAgents",
+			"type": "Runtime",
+			"loadingphase": "Default"
+		}
+	]
+}

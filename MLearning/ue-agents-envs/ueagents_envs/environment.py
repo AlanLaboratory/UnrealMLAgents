@@ -48,7 +48,7 @@ logger = get_logger(__name__)
 
 class UnrealEnvironment(BaseEnv):
     # Communication protocol version.
-    # When connecting to C++, this must be compatible with DRL.k_ApiVersion.
+    # When connecting to C++, this must be compatible with UnrealMLAgents.k_ApiVersion.
     # We follow semantic versioning on the communication version, so existing
     # functionality will work as long the major versions match.
     # This should be changed whenever a change is made to the communication protocol.

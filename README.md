@@ -1,4 +1,4 @@
-# Unreal Engine Deep Reinforcement Learning (DRL) Plugin
+# Unreal ML Agents Plugin
 
 This project is inspired by and built upon the [Unity ML-Agents Toolkit](https://github.com/Unity-Technologies/ml-agents).
 The primary goal is to bring all of the incredible work from Unity's ML-Agents to Unreal Engine. The Unity implementation
@@ -13,20 +13,20 @@ and I encourage developers to explore it as well.
 
 ## Installation
 
-To install the Unreal Engine DRL Plugin:
+To install the Plugin:
 
 1. Clone this repository into your Unreal Engine project's `Plugins` folder.
-2. Download the pre-built third-party binary libraries from [here](https://github.com/AlanLaboratory/DeepReinforcementLearning/releases/tag/0.1.0).
+2. Download the pre-built third-party binary libraries from [here](https://github.com/AlanLaboratory/UnrealMLAgents/releases/tag/0.1.0).
 3. Extract the downloaded libraries to the `Source/ThirdParty` directory in your project.
 
 ## Overview
 
-The **Unreal Engine DRL Plugin** is inspired by the [Unity Machine Learning Agents Toolkit](https://github.com/Unity-Technologies/ml-agents),
+The **UnrealMLAgents Plugin** is inspired by the [Unity Machine Learning Agents Toolkit](https://github.com/Unity-Technologies/ml-agents),
 which enables games and simulations to serve as environments for training intelligent agents. This plugin aims to bring
 those same capabilities to Unreal Engine.
 
 Like Unity ML-Agents, this plugin provides integrations for training intelligent agents in 3D, VR/AR, and other Unreal
-Engine environments. The Unreal Engine DRL Plugin allows game developers, hobbyists, and researchers to train agents
+Engine environments. The UnrealMLAgents Plugin allows game developers, hobbyists, and researchers to train agents
 using state-of-the-art algorithms, including reinforcement learning and imitation learning.
 
 You can use trained agents for various purposes, such as controlling NPC behavior, automating game testing, and evaluating
@@ -38,7 +38,7 @@ This project is based on the [Unity ML-Agents Toolkit](https://github.com/Unity-
 significant modifications to integrate its functionality into **Unreal Engine**. The original Unity ML-Agents code is
 licensed under the Apache License 2.0, and this plugin retains compatibility with that license.
 
-We are grateful to **Unity Technologies** for providing the foundation upon which this Unreal Engine DRL Plugin
+We are grateful to **Unity Technologies** for providing the foundation upon which this Unreal ML Agents Plugin
 is built. You can find the original Unity ML-Agents code and license information in the `LICENSE.unity` file.
 
 ### Modifications
