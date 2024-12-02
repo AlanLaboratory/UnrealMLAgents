@@ -180,7 +180,7 @@ void URpcCommunicator::NotifyQuitAndShutDownChannel()
 {
 	QuitCommandReceived.Broadcast();
 	try
-	{	
+	{
 		Channel.reset();
 	}
 	catch (...)

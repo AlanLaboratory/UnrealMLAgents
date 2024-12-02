@@ -247,12 +247,12 @@ class UnrealRLInputProto_ListAgentActionProto final :
   friend struct ::TableStruct_ueagents_5fenvs_2fcommunicator_5fobjects_2funreal_5frl_5finput_2eproto;
 };// -------------------------------------------------------------------
 
-class UnrealRLInputProto_AgentActionsEntry_DoNotUse final : public ::PROTOBUF_NAMESPACE_ID::internal::MapEntry<UnrealRLInputProto_AgentActionsEntry_DoNotUse, 
+class UnrealRLInputProto_AgentActionsEntry_DoNotUse final : public ::PROTOBUF_NAMESPACE_ID::internal::MapEntry<UnrealRLInputProto_AgentActionsEntry_DoNotUse,
     std::string, ::communicator_objects::UnrealRLInputProto_ListAgentActionProto,
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::TYPE_STRING,
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::TYPE_MESSAGE> {
 public:
-  typedef ::PROTOBUF_NAMESPACE_ID::internal::MapEntry<UnrealRLInputProto_AgentActionsEntry_DoNotUse, 
+  typedef ::PROTOBUF_NAMESPACE_ID::internal::MapEntry<UnrealRLInputProto_AgentActionsEntry_DoNotUse,
     std::string, ::communicator_objects::UnrealRLInputProto_ListAgentActionProto,
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::TYPE_STRING,
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::TYPE_MESSAGE> SuperType;

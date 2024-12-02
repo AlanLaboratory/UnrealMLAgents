@@ -83,4 +83,3 @@ UnrealToExternalProto::Service::~Service() {
 
 
 }  // namespace communicator_objects
-
