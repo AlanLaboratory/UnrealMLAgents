@@ -33,12 +33,10 @@ public:
 	/**
 	 * @brief Default constructor that initializes empty action segments.
 	 *
-	 * This constructor creates an FActionBuffers instance where both continuous and discrete actions are initialized to empty.
+	 * This constructor creates an FActionBuffers instance where both continuous and discrete actions are initialized to
+	 * empty.
 	 */
-	FActionBuffers()
-		: ContinuousActions(nullptr), DiscreteActions(nullptr)
-	{
-	}
+	FActionBuffers() : ContinuousActions(nullptr), DiscreteActions(nullptr) {}
 
 	/**
 	 * @brief Constructor with specified action segments for continuous and discrete actions.
@@ -54,7 +52,8 @@ public:
 	/**
 	 * @brief Constructor that creates action buffers from arrays of actions.
 	 *
-	 * This constructor initializes the action buffers using shared pointers to arrays of continuous and discrete actions.
+	 * This constructor initializes the action buffers using shared pointers to arrays of continuous and discrete
+	 * actions.
 	 *
 	 * @param InContinuousActions A shared pointer to an array of continuous actions.
 	 * @param InDiscreteActions A shared pointer to an array of discrete actions.
@@ -80,10 +79,7 @@ public:
 	 *
 	 * @return True if both the continuous and discrete actions are empty, false otherwise.
 	 */
-	bool IsEmpty() const
-	{
-		return ContinuousActions.IsEmpty() && DiscreteActions.IsEmpty();
-	}
+	bool IsEmpty() const { return ContinuousActions.IsEmpty() && DiscreteActions.IsEmpty(); }
 
 	/** @brief Equality operator to compare two action buffers. */
 	bool operator==(const FActionBuffers& Other) const
@@ -92,10 +88,7 @@ public:
 	}
 
 	/** @brief Inequality operator to compare two action buffers. */
-	bool operator!=(const FActionBuffers& Other) const
-	{
-		return !(*this == Other);
-	}
+	bool operator!=(const FActionBuffers& Other) const { return !(*this == Other); }
 };
 
 /**

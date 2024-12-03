@@ -10,9 +10,9 @@
  * @class UActuatorManager
  * @brief Manages the delegation of events, action buffers, and action masks for a list of IActuators.
  *
- * This class handles the initialization, execution, and coordination of all the actuators within the UnrealMLAgents system.
- * It also manages action buffers and action masks for actuators, ensuring that agents' actions are correctly applied
- * and received.
+ * This class handles the initialization, execution, and coordination of all the actuators within the UnrealMLAgents
+ * system. It also manages action buffers and action masks for actuators, ensuring that agents' actions are correctly
+ * applied and received.
  */
 UCLASS()
 class UNREALMLAGENTS_API UActuatorManager : public UObject
@@ -272,7 +272,8 @@ private:
 	 * @param InSumOfDiscreteBranchSizes Sum of all discrete branches across all actuators.
 	 * @param InNumDiscreteBranches Number of discrete branches across all actuators.
 	 */
-	void ReadyActuatorsForExecution(const TArray<TScriptInterface<IActuator>>& InActuators, int32 InNumContinuousActions, int32 InSumOfDiscreteBranchSizes, int32 InNumDiscreteBranches);
+	void ReadyActuatorsForExecution(const TArray<TScriptInterface<IActuator>>& InActuators,
+		int32 InNumContinuousActions, int32 InSumOfDiscreteBranchSizes, int32 InNumDiscreteBranches);
 
 	/**
 	 * @brief Combines the action specifications of all actuators into a single specification.

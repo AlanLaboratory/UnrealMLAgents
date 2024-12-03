@@ -8,10 +8,12 @@
 
 /**
  * @class UVectorActuator
- * @brief A vector-based actuator for reinforcement learning that forwards actions to an `IActionReceiver` and `IHeuristicProvider`.
+ * @brief A vector-based actuator for reinforcement learning that forwards actions to an `IActionReceiver` and
+ * `IHeuristicProvider`.
  *
- * The `UVectorActuator` class is responsible for managing agent actions and forwarding them to the appropriate interfaces.
- * It supports both continuous and discrete actions and can be initialized with or without a heuristic provider for manual control.
+ * The `UVectorActuator` class is responsible for managing agent actions and forwarding them to the appropriate
+ * interfaces. It supports both continuous and discrete actions and can be initialized with or without a heuristic
+ * provider for manual control.
  */
 UCLASS(Blueprintable)
 class UNREALMLAGENTS_API UVectorActuator : public UObject, public IActuator, public IBuiltInActuator
@@ -31,9 +33,8 @@ public:
 	 * @param InName The name of the actuator (default: "VectorActuator").
 	 */
 	void Initialize(TScriptInterface<IActionReceiver> InActionReceiver,
-		TScriptInterface<IHeuristicProvider>		  InHeuristicProvider,
-		const FActionSpec&							  InActionSpec,
-		const FString&								  InName = "VectorActuator");
+		TScriptInterface<IHeuristicProvider> InHeuristicProvider, const FActionSpec& InActionSpec,
+		const FString& InName = "VectorActuator");
 
 	/**
 	 * @brief Initializes the actuator with an action receiver only (no heuristic provider).
@@ -45,9 +46,8 @@ public:
 	 * @param InActionSpec The specification of the action space (continuous/discrete actions).
 	 * @param InName The name of the actuator (default: "VectorActuator").
 	 */
-	void Initialize(TScriptInterface<IActionReceiver> InActionReceiver,
-		const FActionSpec&							  InActionSpec,
-		const FString&								  InName = "VectorActuator");
+	void Initialize(TScriptInterface<IActionReceiver> InActionReceiver, const FActionSpec& InActionSpec,
+		const FString& InName = "VectorActuator");
 
 	/**
 	 * @brief Resets the actuator's internal state.
@@ -59,8 +59,8 @@ public:
 	/**
 	 * @brief Receives actions and forwards them to the associated `IActionReceiver`.
 	 *
-	 * This function is called when actions are received from the policy (e.g., from the reinforcement learning algorithm).
-	 * It forwards the received actions to the associated action receiver for processing.
+	 * This function is called when actions are received from the policy (e.g., from the reinforcement learning
+	 * algorithm). It forwards the received actions to the associated action receiver for processing.
 	 *
 	 * @param ActionBuffers The action buffers containing the agent's actions.
 	 */

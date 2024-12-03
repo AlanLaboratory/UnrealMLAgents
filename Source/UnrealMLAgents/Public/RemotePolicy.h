@@ -53,7 +53,8 @@ public:
 	 * @param InActionSpec The specification of the action space for the agent.
 	 * @param InFullyQualifiedBehaviorName The fully qualified name of the behavior being used.
 	 */
-	void Initialize(UActuatorManager* InActuatorManager, const FActionSpec& InActionSpec, const FString& InFullyQualifiedBehaviorName);
+	void Initialize(UActuatorManager* InActuatorManager, const FActionSpec& InActionSpec,
+		const FString& InFullyQualifiedBehaviorName);
 
 	/**
 	 * @brief Requests a decision from the remote server based on the agent's current observations.

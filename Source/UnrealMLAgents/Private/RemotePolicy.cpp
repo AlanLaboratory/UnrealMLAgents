@@ -1,7 +1,8 @@
 #include "RemotePolicy.h"
 #include "Academy.h"
 
-void URemotePolicy::Initialize(UActuatorManager* InActuatorManager, const FActionSpec& InActionSpec, const FString& InFullyQualifiedBehaviorName)
+void URemotePolicy::Initialize(
+	UActuatorManager* InActuatorManager, const FActionSpec& InActionSpec, const FString& InFullyQualifiedBehaviorName)
 {
 	FullyQualifiedBehaviorName = InFullyQualifiedBehaviorName;
 	Communicator = UAcademy::GetInstance()->RpcCommunicator;

@@ -11,7 +11,10 @@ bool URecursionChecker::Start()
 {
 	if (bIsRunning)
 	{
-		checkf(false, TEXT("%s called recursively. This might happen if you call EnvironmentStep() or EndEpisode() from custom code such as CollectObservations() or OnActionReceived()."), *MethodName);
+		checkf(false,
+			TEXT(
+				"%s called recursively. This might happen if you call EnvironmentStep() or EndEpisode() from custom code such as CollectObservations() or OnActionReceived()."),
+			*MethodName);
 		return false;
 	}
 	bIsRunning = true;

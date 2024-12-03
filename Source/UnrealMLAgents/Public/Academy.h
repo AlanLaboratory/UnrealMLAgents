@@ -156,10 +156,7 @@ public:
 	 *
 	 * This method return True if the Academy has been well initialized.
 	 */
-	static bool IsInitialized()
-	{
-		return Instance != nullptr;
-	}
+	static bool IsInitialized() { return Instance != nullptr; }
 
 	/**
 	 * @brief Checks if the communicator is currently active.

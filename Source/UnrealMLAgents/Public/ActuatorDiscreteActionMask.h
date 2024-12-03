@@ -30,7 +30,8 @@ public:
 	 * @param InNumDiscreteBranches The number of discrete branches in the action space.
 	 * @param InBranchSizes Optional array representing the size of each branch.
 	 */
-	void Initialize(const TArray<TScriptInterface<IActuator>>& InActuators, int32 InSumOfDiscreteBranchSizes, int32 InNumDiscreteBranches, const TArray<int32>& InBranchSizes = TArray<int32>())
+	void Initialize(const TArray<TScriptInterface<IActuator>>& InActuators, int32 InSumOfDiscreteBranchSizes,
+		int32 InNumDiscreteBranches, const TArray<int32>& InBranchSizes = TArray<int32>())
 	{
 		Actuators = InActuators;
 		SumOfDiscreteBranchSizes = InSumOfDiscreteBranchSizes;
@@ -57,10 +58,7 @@ public:
 	 * @return A boolean array representing the current action mask.
 	 * True values indicate actions that are masked (disabled), and false values indicate enabled actions.
 	 */
-	TArray<bool> GetMask() const
-	{
-		return CurrentMask;
-	}
+	TArray<bool> GetMask() const { return CurrentMask; }
 
 	/**
 	 * @brief Resets the action mask, re-enabling all previously masked actions.
@@ -158,7 +156,8 @@ private:
 		{
 			if (AreAllActionsMasked(BranchIndex))
 			{
-				UE_LOG(LogTemp, Error, TEXT("Invalid Action Masking: All the actions of branch %d are masked."), BranchIndex);
+				UE_LOG(LogTemp, Error, TEXT("Invalid Action Masking: All the actions of branch %d are masked."),
+					BranchIndex);
 			}
 		}
 	}

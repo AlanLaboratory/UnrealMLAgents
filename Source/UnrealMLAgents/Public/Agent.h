@@ -50,7 +50,8 @@ public:
  * deciding on actions, and executing those actions.
  *
  * Agents operate in episodes and are governed by policies that decide their actions based on observations.
- * They can receive rewards, and the episode ends when the agent reaches a goal, fails, or reaches the maximum step limit.
+ * They can receive rewards, and the episode ends when the agent reaches a goal, fails, or reaches the maximum step
+ * limit.
  */
 UCLASS(Blueprintable, ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class UNREALMLAGENTS_API UAgent : public UActorComponent, public IActionReceiver, public IHeuristicProvider
@@ -71,7 +72,8 @@ public:
 	 * @param TickType Type of tick, such as a physics or regular tick.
 	 * @param ThisTickFunction Information about this tick function.
 	 */
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+	virtual void TickComponent(
+		float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 	/**
 	 * @brief Sets the agent's reward for the current step.
@@ -224,8 +226,7 @@ private:
 	 * @tparam T The type of components to retrieve.
 	 * @param OutChildComponents The array to store the found child components.
 	 */
-	template <class T>
-	void GetAllChildComponents(TArray<T*>& OutChildComponents);
+	template <class T> void GetAllChildComponents(TArray<T*>& OutChildComponents);
 
 	/**
 	 * @brief Increments the agent's step count for the current episode.

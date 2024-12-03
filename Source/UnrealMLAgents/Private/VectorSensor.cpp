@@ -1,9 +1,7 @@
 #include "VectorSensor.h"
 #include "ObservationWriter.h"
 
-UVectorSensor::UVectorSensor()
-{
-}
+UVectorSensor::UVectorSensor() {}
 
 void UVectorSensor::Initialize(int32 ObservationSize, FString InName, EObservationType ObservationType)
 {
@@ -27,14 +25,16 @@ int32 UVectorSensor::Write(ObservationWriter& Writer)
 	if (Observations.Num() > ExpectedObservations)
 	{
 		// Too many observations, truncate
-		UE_LOG(LogTemp, Warning, TEXT("More observations (%d) made than vector observation size (%d). The observations will be truncated."),
+		UE_LOG(LogTemp, Warning,
+			TEXT("More observations (%d) made than vector observation size (%d). The observations will be truncated."),
 			Observations.Num(), ExpectedObservations);
 		Observations.SetNum(ExpectedObservations);
 	}
 	else if (Observations.Num() < ExpectedObservations)
 	{
 		// Not enough observations; pad with zeros.
-		UE_LOG(LogTemp, Warning, TEXT("Fewer observations (%d) made than vector observation size (%d). The observations will be padded."),
+		UE_LOG(LogTemp, Warning,
+			TEXT("Fewer observations (%d) made than vector observation size (%d). The observations will be padded."),
 			Observations.Num(), ExpectedObservations);
 		Observations.SetNumZeroed(ExpectedObservations);
 	}

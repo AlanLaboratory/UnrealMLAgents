@@ -1,6 +1,7 @@
 #include "VectorActuator.h"
 
-void UVectorActuator::Initialize(TScriptInterface<IActionReceiver> InActionReceiver, const FActionSpec& InActionSpec, const FString& InName)
+void UVectorActuator::Initialize(
+	TScriptInterface<IActionReceiver> InActionReceiver, const FActionSpec& InActionSpec, const FString& InName)
 {
 	TScriptInterface<IHeuristicProvider> Result;
 	IHeuristicProvider*					 Temp = Cast<IHeuristicProvider>(&*InActionReceiver);
@@ -9,7 +10,8 @@ void UVectorActuator::Initialize(TScriptInterface<IActionReceiver> InActionRecei
 	Initialize(InActionReceiver, Result, InActionSpec, InName);
 }
 
-void UVectorActuator::Initialize(TScriptInterface<IActionReceiver> InActionReceiver, TScriptInterface<IHeuristicProvider> InHeuristicProvider, const FActionSpec& InActionSpec, const FString& InName)
+void UVectorActuator::Initialize(TScriptInterface<IActionReceiver> InActionReceiver,
+	TScriptInterface<IHeuristicProvider> InHeuristicProvider, const FActionSpec& InActionSpec, const FString& InName)
 {
 	ActionReceiver = InActionReceiver;
 	HeuristicProvider = InHeuristicProvider;
@@ -26,7 +28,8 @@ void UVectorActuator::Initialize(TScriptInterface<IActionReceiver> InActionRecei
 	}
 	else
 	{
-		Suffix = FString::Printf(TEXT("-Continuous-%d-Discrete-%d"), ActionSpec.NumContinuousActions, ActionSpec.GetNumDiscreteActions());
+		Suffix = FString::Printf(
+			TEXT("-Continuous-%d-Discrete-%d"), ActionSpec.NumContinuousActions, ActionSpec.GetNumDiscreteActions());
 	}
 	Name = InName + Suffix;
 }

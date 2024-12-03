@@ -32,7 +32,8 @@ public:
 	 * @param Name The name of the sensor (optional).
 	 * @param ObservationType The type of observation being captured (default: EObservationType::Default).
 	 */
-	void Initialize(int32 ObservationSize, FString Name = "", EObservationType ObservationType = EObservationType::Default);
+	void Initialize(
+		int32 ObservationSize, FString Name = "", EObservationType ObservationType = EObservationType::Default);
 
 	/**
 	 * @brief Writes the sensor's observations to the provided ObservationWriter.

@@ -54,10 +54,7 @@ public:
 	float YawOffset;
 
 	// Get the number of observations
-	int32 OutputSize()
-	{
-		return Angles.Num() * 2;
-	}
+	int32 OutputSize() { return Angles.Num() * 2; }
 };
 
 UCLASS(Blueprintable)

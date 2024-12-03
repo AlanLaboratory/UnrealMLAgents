@@ -53,15 +53,13 @@ struct UNREALMLAGENTS_API FAgentInfo
 	 *
 	 * This method resets the stored actions in the `StoredActions` buffer.
 	 */
-	void ClearActions()
-	{
-		StoredActions.Clear();
-	}
+	void ClearActions() { StoredActions.Clear(); }
 
 	/**
 	 * @brief Copies the actions from the given action buffer into the stored actions.
 	 *
-	 * This method copies both continuous and discrete actions from the provided action buffer to the agent's stored actions.
+	 * This method copies both continuous and discrete actions from the provided action buffer to the agent's stored
+	 * actions.
 	 *
 	 * @param ActionBuffers The action buffers containing the actions to copy.
 	 */

@@ -38,7 +38,8 @@ bool UBehaviorParameters::IsInHeuristicMode()
 	return false;
 }
 
-TScriptInterface<IIPolicy> UBehaviorParameters::GeneratePolicy(const FActionSpec& ActionSpec, UActuatorManager* ActuatorManager)
+TScriptInterface<IIPolicy> UBehaviorParameters::GeneratePolicy(
+	const FActionSpec& ActionSpec, UActuatorManager* ActuatorManager)
 {
 	switch (BehaviorType)
 	{
@@ -60,7 +61,8 @@ TScriptInterface<IIPolicy> UBehaviorParameters::GeneratePolicy(const FActionSpec
 	}
 }
 
-UHeuristicPolicy* UBehaviorParameters::InitializeHeuristicPolicy(const FActionSpec& ActionSpec, UActuatorManager* ActuatorManager)
+UHeuristicPolicy* UBehaviorParameters::InitializeHeuristicPolicy(
+	const FActionSpec& ActionSpec, UActuatorManager* ActuatorManager)
 {
 	UHeuristicPolicy* HeuristicPolicy = NewObject<UHeuristicPolicy>();
 	HeuristicPolicy->Initialize(ActuatorManager, ActionSpec);

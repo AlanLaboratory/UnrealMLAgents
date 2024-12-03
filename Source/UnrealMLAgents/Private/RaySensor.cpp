@@ -49,9 +49,7 @@ void URaySensor::Update()
 	PerformRaycasts();
 }
 
-void URaySensor::Reset()
-{
-}
+void URaySensor::Reset() {}
 
 FString URaySensor::GetName() const
 {

@@ -9,7 +9,8 @@ void URpcCommunicator::PostInitProperties()
 	CurrentUnrealRlOutput = MakeUnique<communicator_objects::UnrealRLOutputProto>();
 }
 
-bool URpcCommunicator::Initialize(const FCommunicatorInitParameters& InitParameters, FUnrealRLInitParameters& InitParametersOut)
+bool URpcCommunicator::Initialize(
+	const FCommunicatorInitParameters& InitParameters, FUnrealRLInitParameters& InitParametersOut)
 {
 	communicator_objects::UnrealRLInitializationOutputProto AcademyParameters;
 	AcademyParameters.set_name(TCHAR_TO_UTF8(*InitParameters.Name));
@@ -25,37 +26,40 @@ bool URpcCommunicator::Initialize(const FCommunicatorInitParameters& InitParamet
 		communicator_objects::UnrealOutputProto UnrealOutput;
 		*UnrealOutput.mutable_rl_initialization_output() = AcademyParameters;
 
-		InitializationInput = Initialize(
-			InitParameters.Port,
-			UnrealOutput,
-			Input);
+		InitializationInput = Initialize(InitParameters.Port, UnrealOutput, Input);
 	}
 	catch (const std::exception& ex)
 	{
-		UE_LOG(LogTemp, Error, TEXT("Unexpected exception when trying to initialize communication: %s"), UTF8_TO_TCHAR(ex.what()));
+		UE_LOG(LogTemp, Error, TEXT("Unexpected exception when trying to initialize communication: %s"),
+			UTF8_TO_TCHAR(ex.what()));
 		InitParametersOut = FUnrealRLInitParameters();
 		NotifyQuitAndShutDownChannel();
 		return false;
 	}
 
-	FString PythonPackageVersion = UTF8_TO_TCHAR(InitializationInput.rl_initialization_input().package_version().c_str());
-	FString PythonCommunicationVersion = UTF8_TO_TCHAR(InitializationInput.rl_initialization_input().communication_version().c_str());
+	FString PythonPackageVersion =
+		UTF8_TO_TCHAR(InitializationInput.rl_initialization_input().package_version().c_str());
+	FString PythonCommunicationVersion =
+		UTF8_TO_TCHAR(InitializationInput.rl_initialization_input().communication_version().c_str());
 
-	bool CommunicationIsCompatible = CheckCommunicationVersionAreCompatible(
-		InitParameters.UnrealCommunicationVersion,
-		PythonCommunicationVersion);
+	bool CommunicationIsCompatible =
+		CheckCommunicationVersionAreCompatible(InitParameters.UnrealCommunicationVersion, PythonCommunicationVersion);
 
 	// Initialization succeeded part-way. The most likely cause is a mismatch between the communicator API strings.
 	if (InitializationInput.has_rl_initialization_input() && !Input.has_rl_input())
 	{
 		if (!CommunicationIsCompatible)
 		{
-			UE_LOG(LogTemp, Warning, TEXT("Communication protocol between python (%s) and Unreal (%s) have different versions which make them incompatible. Python library version: %s."),
+			UE_LOG(LogTemp, Warning,
+				TEXT(
+					"Communication protocol between python (%s) and Unreal (%s) have different versions which make them incompatible. Python library version: %s."),
 				*PythonCommunicationVersion, *InitParameters.UnrealCommunicationVersion, *PythonPackageVersion);
 		}
 		else
 		{
-			UE_LOG(LogTemp, Warning, TEXT("Unknown communication error between Python. Python communication protocol: %s, Python library version: %s."),
+			UE_LOG(LogTemp, Warning,
+				TEXT(
+					"Unknown communication error between Python. Python communication protocol: %s, Python library version: %s."),
 				*PythonCommunicationVersion, *PythonPackageVersion);
 		}
 
@@ -67,8 +71,10 @@ bool URpcCommunicator::Initialize(const FCommunicatorInitParameters& InitParamet
 	SendCommandEvent(Input.rl_input().command());
 	InitParametersOut.Seed = InitializationInput.rl_initialization_input().seed();
 	InitParametersOut.NumAreas = InitializationInput.rl_initialization_input().num_areas();
-	InitParametersOut.PythonLibraryVersion = UTF8_TO_TCHAR(InitializationInput.rl_initialization_input().package_version().c_str());
-	InitParametersOut.PythonCommunicationVersion = UTF8_TO_TCHAR(InitializationInput.rl_initialization_input().communication_version().c_str());
+	InitParametersOut.PythonLibraryVersion =
+		UTF8_TO_TCHAR(InitializationInput.rl_initialization_input().package_version().c_str());
+	InitParametersOut.PythonCommunicationVersion =
+		UTF8_TO_TCHAR(InitializationInput.rl_initialization_input().communication_version().c_str());
 
 	// Be sure to shut down the grpc channel when the application is quitting.
 	FCoreDelegates::OnPreExit.AddUObject(this, &URpcCommunicator::NotifyQuitAndShutDownChannel);
@@ -84,7 +90,8 @@ bool URpcCommunicator::EstablishConnection(int32 Port)
 	return Channel != nullptr && Stub != nullptr;
 }
 
-bool URpcCommunicator::SendAndReceiveMessage(const communicator_objects::UnrealMessageProto& Request, communicator_objects::UnrealMessageProto& Response)
+bool URpcCommunicator::SendAndReceiveMessage(
+	const communicator_objects::UnrealMessageProto& Request, communicator_objects::UnrealMessageProto& Response)
 {
 	grpc::ClientContext Context;
 	grpc::Status		Status = Stub->Exchange(&Context, Request, &Response);
@@ -99,7 +106,8 @@ bool URpcCommunicator::SendAndReceiveMessage(const communicator_objects::UnrealM
 	return Response.header().status() == 200;
 }
 
-communicator_objects::UnrealInputProto URpcCommunicator::Initialize(int32 Port, const communicator_objects::UnrealOutputProto& UnrealOutput, communicator_objects::UnrealInputProto& UnrealInput)
+communicator_objects::UnrealInputProto URpcCommunicator::Initialize(int32 Port,
+	const communicator_objects::UnrealOutputProto& UnrealOutput, communicator_objects::UnrealInputProto& UnrealInput)
 {
 	bIsOpen = true;
 
@@ -132,7 +140,8 @@ communicator_objects::UnrealInputProto URpcCommunicator::Initialize(int32 Port, 
 	return Result.unreal_input();
 }
 
-communicator_objects::UnrealMessageProto URpcCommunicator::WrapMessage(const communicator_objects::UnrealOutputProto* Content, int32 Status)
+communicator_objects::UnrealMessageProto URpcCommunicator::WrapMessage(
+	const communicator_objects::UnrealOutputProto* Content, int32 Status)
 {
 	communicator_objects::UnrealMessageProto Message;
 	auto*									 Header = Message.mutable_header();
@@ -144,7 +153,8 @@ communicator_objects::UnrealMessageProto URpcCommunicator::WrapMessage(const com
 	return Message;
 }
 
-bool URpcCommunicator::CheckCommunicationVersionAreCompatible(const FString& UnrealCommunicationVersion, const FString& PythonApiVersion)
+bool URpcCommunicator::CheckCommunicationVersionAreCompatible(
+	const FString& UnrealCommunicationVersion, const FString& PythonApiVersion)
 {
 	TArray<FString> UnrealParts;
 	UnrealCommunicationVersion.ParseIntoArray(UnrealParts, TEXT("."));
@@ -211,8 +221,8 @@ void URpcCommunicator::SubscribeBrain(const FString& Name, FActionSpec ActionSpe
 		return;
 	}
 	BehaviorNames.Add(Name);
-	CurrentUnrealRlOutput->mutable_agentinfos()->insert(
-		std::make_pair(std::string(TCHAR_TO_UTF8(*Name)), communicator_objects::UnrealRLOutputProto_ListAgentInfoProto()));
+	CurrentUnrealRlOutput->mutable_agentinfos()->insert(std::make_pair(
+		std::string(TCHAR_TO_UTF8(*Name)), communicator_objects::UnrealRLOutputProto_ListAgentInfoProto()));
 	CacheActionSpec(Name, ActionSpec);
 }
 
@@ -225,7 +235,8 @@ void URpcCommunicator::CacheActionSpec(const FString& Name, FActionSpec ActionSp
 	UnsentBrainKeys.Emplace(Name, ActionSpec);
 }
 
-void URpcCommunicator::PutObservations(const FString& BehaviorName, const FAgentInfo& Info, TArray<TScriptInterface<IISensor>>& Sensors)
+void URpcCommunicator::PutObservations(
+	const FString& BehaviorName, const FAgentInfo& Info, TArray<TScriptInterface<IISensor>>& Sensors)
 {
 	communicator_objects::AgentInfoProto AgentInfoProto = ToAgentInfoProto(Info);
 	for (auto& sensor : Sensors)
@@ -286,7 +297,8 @@ void URpcCommunicator::SendBatchedMessageHelper()
 	communicator_objects::UnrealOutputProto Message;
 	Message.mutable_rl_output()->CopyFrom(*CurrentUnrealRlOutput);
 
-	TSharedPtr<communicator_objects::UnrealRLInitializationOutputProto> tempUnityRlInitializationOutput = GetTempUnrealRlInitializationOutput();
+	TSharedPtr<communicator_objects::UnrealRLInitializationOutputProto> tempUnityRlInitializationOutput =
+		GetTempUnrealRlInitializationOutput();
 	if (tempUnityRlInitializationOutput != nullptr)
 	{
 		*Message.mutable_rl_initialization_output() = *tempUnityRlInitializationOutput.Get();
@@ -345,7 +357,8 @@ void URpcCommunicator::SendBatchedMessageHelper()
 	}
 }
 
-communicator_objects::ObservationProto URpcCommunicator::GetObservationProto(TScriptInterface<IISensor> Sensor, ObservationWriter& ObservationWriter)
+communicator_objects::ObservationProto URpcCommunicator::GetObservationProto(
+	TScriptInterface<IISensor> Sensor, ObservationWriter& ObservationWriter)
 {
 
 	FObservationSpec								  ObsSpec = Sensor->GetObservationSpec();
@@ -386,7 +399,8 @@ communicator_objects::ObservationProto URpcCommunicator::GetObservationProto(TSc
 	return ObservationProto;
 }
 
-communicator_objects::UnrealInputProto URpcCommunicator::Exchange(const communicator_objects::UnrealOutputProto* UnrealOutput)
+communicator_objects::UnrealInputProto URpcCommunicator::Exchange(
+	const communicator_objects::UnrealOutputProto* UnrealOutput)
 {
 
 	if (!bIsOpen)
@@ -416,7 +430,8 @@ communicator_objects::UnrealInputProto URpcCommunicator::Exchange(const communic
 	return communicator_objects::UnrealInputProto();
 }
 
-TSharedPtr<communicator_objects::UnrealRLInitializationOutputProto> URpcCommunicator::GetTempUnrealRlInitializationOutput()
+TSharedPtr<communicator_objects::UnrealRLInitializationOutputProto>
+URpcCommunicator::GetTempUnrealRlInitializationOutput()
 {
 	TSharedPtr<communicator_objects::UnrealRLInitializationOutputProto> Output = nullptr;
 	for (const auto& Elem : UnsentBrainKeys)
@@ -441,7 +456,8 @@ TSharedPtr<communicator_objects::UnrealRLInitializationOutputProto> URpcCommunic
 	return Output;
 }
 
-communicator_objects::BrainParametersProto URpcCommunicator::ToBrainParametersProto(const FActionSpec& ActionSpec, FString Name, bool bIsTraining)
+communicator_objects::BrainParametersProto URpcCommunicator::ToBrainParametersProto(
+	const FActionSpec& ActionSpec, FString Name, bool bIsTraining)
 {
 	communicator_objects::BrainParametersProto BrainParametersProto;
 	BrainParametersProto.set_brain_name(TCHAR_TO_UTF8(*Name));
@@ -514,7 +530,8 @@ void URpcCommunicator::SendCommandEvent(communicator_objects::CommandProto Comma
 	}
 }
 
-TArray<FActionBuffers> URpcCommunicator::ToAgentActionList(const communicator_objects::UnrealRLInputProto_ListAgentActionProto Proto)
+TArray<FActionBuffers> URpcCommunicator::ToAgentActionList(
+	const communicator_objects::UnrealRLInputProto_ListAgentActionProto Proto)
 {
 	TArray<FActionBuffers> AgentActions;
 	AgentActions.Reserve(Proto.value_size());
@@ -577,7 +594,7 @@ void URpcCommunicator::Dispose()
 		// Assuming Stub is initialized and WrapMessage returns a valid object
 		communicator_objects::UnrealMessageProto Response;
 		grpc::ClientContext						 Context;
-		grpc::Status							 Status = Stub->Exchange(&Context, WrapMessage(nullptr, 400), &Response);
+		grpc::Status Status = Stub->Exchange(&Context, WrapMessage(nullptr, 400), &Response);
 		bIsOpen = false;
 	}
 	catch (...)

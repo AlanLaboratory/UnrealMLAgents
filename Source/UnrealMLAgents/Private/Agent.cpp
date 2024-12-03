@@ -69,9 +69,7 @@ void UAgent::LazyInitialize()
 	ContinuousActionArray->Init(0.0f, ActuatorManager->GetNumContinuousActions());
 
 	// Set storedActions in AgentInfo
-	Info.StoredActions = FActionBuffers(
-		ContinuousActionArray,
-		DiscreteActionArray);
+	Info.StoredActions = FActionBuffers(ContinuousActionArray, DiscreteActionArray);
 
 	Info.GroupId = GroupId;
 
@@ -126,7 +124,8 @@ void UAgent::ReloadPolicy()
 	{
 		return;
 	}
-	Brain = TScriptInterface<IIPolicy>(PolicyFactory->GeneratePolicy(ActuatorManager->GetCombinedActionSpec(), ActuatorManager));
+	Brain = TScriptInterface<IIPolicy>(
+		PolicyFactory->GeneratePolicy(ActuatorManager->GetCombinedActionSpec(), ActuatorManager));
 }
 
 void UAgent::InitializeActuators()
@@ -229,7 +228,9 @@ void UAgent::SendInfoToBrain()
 
 	if (!bInitialized)
 	{
-		UE_LOG(LogTemp, Error, TEXT("Call to SendInfoToBrain when Agent hasn't been initialized. Please ensure that you are calling 'Super::OnEnable()' if you have overridden OnEnable."));
+		UE_LOG(LogTemp, Error,
+			TEXT(
+				"Call to SendInfoToBrain when Agent hasn't been initialized. Please ensure that you are calling 'Super::OnEnable()' if you have overridden OnEnable."));
 		return;
 	}
 
@@ -396,8 +397,7 @@ int32 UAgent::GetDiscreteActions(const FActionBuffers& Actions, int32 Index)
 	return Actions.DiscreteActions[Index];
 }
 
-template <typename T>
-void UAgent::GetAllChildComponents(TArray<T*>& OutChildComponents)
+template <typename T> void UAgent::GetAllChildComponents(TArray<T*>& OutChildComponents)
 {
 	// Ensure the output array is empty
 	OutChildComponents.Empty();

@@ -48,7 +48,8 @@ struct FCommunicatorInitParameters
  * @struct FUnrealRLInitParameters
  * @brief Contains initialization parameters sent from an external trainer to Unreal RL.
  *
- * This struct stores information such as the random seed, the number of areas in the environment, and the versions of the Python libraries in use.
+ * This struct stores information such as the random seed, the number of areas in the environment, and the versions of
+ * the Python libraries in use.
  */
 USTRUCT(BlueprintType)
 struct FUnrealRLInitParameters
@@ -126,7 +127,8 @@ class UCommunicatorInterface : public UInterface
  * @brief Interface for communicating between Unreal RL and an external training process.
  *
  * This interface provides methods to initialize communication, send agent observations, and receive agent actions.
- * It also defines events for handling quit and reset commands as well as receiving input parameters from the external trainer.
+ * It also defines events for handling quit and reset commands as well as receiving input parameters from the external
+ * trainer.
  */
 class UNREALMLAGENTS_API ICommunicatorInterface
 {
@@ -147,18 +149,21 @@ public:
 	/**
 	 * @brief Initializes communication between Unreal and the external trainer.
 	 *
-	 * This method sets up the communication link between Unreal and the external process by exchanging initialization parameters.
+	 * This method sets up the communication link between Unreal and the external process by exchanging initialization
+	 * parameters.
 	 *
 	 * @param InitParameters The initialization parameters sent from Unreal.
 	 * @param InitParametersOut The initialization parameters received from the external trainer.
 	 * @return True if initialization was successful, false otherwise.
 	 */
-	virtual bool Initialize(const FCommunicatorInitParameters& InitParameters, FUnrealRLInitParameters& InitParametersOut) = 0;
+	virtual bool Initialize(
+		const FCommunicatorInitParameters& InitParameters, FUnrealRLInitParameters& InitParametersOut) = 0;
 
 	/**
 	 * @brief Registers a new brain (agent) with the communicator.
 	 *
-	 * This method registers an agent's brain with the communicator, allowing the brain to exchange actions and observations.
+	 * This method registers an agent's brain with the communicator, allowing the brain to exchange actions and
+	 * observations.
 	 *
 	 * @param Name A unique identifier for the brain.
 	 * @param ActionSpec The specification of the actions the brain can take.
@@ -168,25 +173,29 @@ public:
 	/**
 	 * @brief Sends observations from an agent to the external trainer.
 	 *
-	 * This method is used to send agent observations to the external trainer, allowing it to process these observations and return actions.
+	 * This method is used to send agent observations to the external trainer, allowing it to process these observations
+	 * and return actions.
 	 *
 	 * @param BrainKey The key identifying the brain to which the agent belongs.
 	 * @param Info The agent's current state and observations.
 	 * @param Sensors A list of the sensors attached to the agent.
 	 */
-	virtual void PutObservations(const FString& BrainKey, const FAgentInfo& Info, TArray<TScriptInterface<IISensor>>& Sensors) = 0;
+	virtual void PutObservations(
+		const FString& BrainKey, const FAgentInfo& Info, TArray<TScriptInterface<IISensor>>& Sensors) = 0;
 
 	/**
 	 * @brief Requests a decision from the external trainer for all agents.
 	 *
-	 * This method is called to signal that all agents are ready to receive actions and that the external trainer should process a batch of observations.
+	 * This method is called to signal that all agents are ready to receive actions and that the external trainer should
+	 * process a batch of observations.
 	 */
 	virtual void DecideBatch() = 0;
 
 	/**
 	 * @brief Retrieves the actions for a specific agent from the external trainer.
 	 *
-	 * This method fetches the actions that the external trainer has determined for a specific agent based on the observations sent.
+	 * This method fetches the actions that the external trainer has determined for a specific agent based on the
+	 * observations sent.
 	 *
 	 * @param Key The key identifying the brain (agent) whose actions are requested.
 	 * @param AgentId The ID of the agent within that brain whose actions are requested.

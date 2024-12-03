@@ -8,8 +8,8 @@
  * @struct FBrainParameters
  * @brief Holds information about the brain of an agent, defining the inputs and outputs of the decision process.
  *
- * This structure contains details about the agent's observations, how actions are defined, and how they are stacked across frames.
- * It also includes utilities for cloning the brain parameters and managing its action specifications.
+ * This structure contains details about the agent's observations, how actions are defined, and how they are stacked
+ * across frames. It also includes utilities for cloning the brain parameters and managing its action specifications.
  */
 USTRUCT(BlueprintType)
 struct UNREALMLAGENTS_API FBrainParameters

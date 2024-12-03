@@ -18,7 +18,8 @@ const UActuatorDiscreteActionMask& UActuatorManager::GetDiscreteActionMask() con
 }
 
 // Helper method for readying actuators
-void UActuatorManager::ReadyActuatorsForExecution(const TArray<TScriptInterface<IActuator>>& InActuators, int32 InNumContinuousActions, int32 InSumOfDiscreteBranchSizes, int32 InNumDiscreteBranches)
+void UActuatorManager::ReadyActuatorsForExecution(const TArray<TScriptInterface<IActuator>>& InActuators,
+	int32 InNumContinuousActions, int32 InSumOfDiscreteBranchSizes, int32 InNumDiscreteBranches)
 {
 	if (bReadyForExecution)
 	{
@@ -39,14 +40,17 @@ void UActuatorManager::ReadyActuatorsForExecution(const TArray<TScriptInterface<
 	TSharedPtr<TArray<float>> ContinuousActionArray = MakeShared<TArray<float>>();
 	ContinuousActionArray->Init(0.0f, InNumContinuousActions);
 
-	FActionSegment<int32> DiscreteActions = (InNumDiscreteBranches == 0) ? FActionSegment<int32>::Empty : FActionSegment<int32>(DiscreteActionArray);
+	FActionSegment<int32> DiscreteActions =
+		(InNumDiscreteBranches == 0) ? FActionSegment<int32>::Empty : FActionSegment<int32>(DiscreteActionArray);
 
-	FActionSegment<float> ContinuousActions = (InNumContinuousActions == 0) ? FActionSegment<float>::Empty : FActionSegment<float>(ContinuousActionArray);
+	FActionSegment<float> ContinuousActions =
+		(InNumContinuousActions == 0) ? FActionSegment<float>::Empty : FActionSegment<float>(ContinuousActionArray);
 
 	StoredActions = FActionBuffers(ContinuousActions, DiscreteActions);
 	CombinedActionSpec = CombineActionSpecs(InActuators);
 	DiscreteActionMask = NewObject<UActuatorDiscreteActionMask>();
-	DiscreteActionMask->Initialize(InActuators, InSumOfDiscreteBranchSizes, InNumDiscreteBranches, CombinedActionSpec.BranchSizes);
+	DiscreteActionMask->Initialize(
+		InActuators, InSumOfDiscreteBranchSizes, InNumDiscreteBranches, CombinedActionSpec.BranchSizes);
 	bReadyForExecution = true;
 }
 
@@ -76,7 +80,8 @@ FActionSpec UActuatorManager::CombineActionSpecs(const TArray<TScriptInterface<I
 			const TArray<int32>& BranchSizes = Actuator->GetActionSpec().BranchSizes;
 			if (BranchSizes.Num() > 0)
 			{
-				FMemory::Memcpy(CombinedBranchSizes.GetData() + Start, BranchSizes.GetData(), BranchSizes.Num() * sizeof(int32));
+				FMemory::Memcpy(
+					CombinedBranchSizes.GetData() + Start, BranchSizes.GetData(), BranchSizes.Num() * sizeof(int32));
 				Start += BranchSizes.Num();
 			}
 		}
@@ -112,8 +117,7 @@ void UActuatorManager::UpdateActionArray(const FActionSegment<T>& SourceActionBu
 		if (SourceActionBuffer.Length != Destination.Length)
 		{
 			checkf(SourceActionBuffer.Length == Destination.Length,
-				TEXT("sourceActionBuffer: %d is a different size than destination: %d."),
-				SourceActionBuffer.Length,
+				TEXT("sourceActionBuffer: %d is a different size than destination: %d."), SourceActionBuffer.Length,
 				Destination.Length);
 		}
 
@@ -121,10 +125,8 @@ void UActuatorManager::UpdateActionArray(const FActionSegment<T>& SourceActionBu
 		check(SourceActionBuffer.Array.IsValid() && Destination.Array.IsValid());
 
 		// Perform memory copy
-		FMemory::Memcpy(
-			Destination.Array->GetData() + Destination.Offset,
-			SourceActionBuffer.Array->GetData() + SourceActionBuffer.Offset,
-			SourceActionBuffer.Length * sizeof(T));
+		FMemory::Memcpy(Destination.Array->GetData() + Destination.Offset,
+			SourceActionBuffer.Array->GetData() + SourceActionBuffer.Offset, SourceActionBuffer.Length * sizeof(T));
 	}
 }
 
@@ -182,17 +184,15 @@ void UActuatorManager::ApplyHeuristic(const FActionBuffers& ActionBuffersOut)
 		FActionSegment<float> ContinuousActions = FActionSegment<float>::Empty;
 		if (NumberContinuousActions > 0)
 		{
-			ContinuousActions = FActionSegment<float>(ActionBuffersOut.ContinuousActions.Array,
-				ContinuousStart,
-				NumberContinuousActions);
+			ContinuousActions = FActionSegment<float>(
+				ActionBuffersOut.ContinuousActions.Array, ContinuousStart, NumberContinuousActions);
 		}
 
 		FActionSegment<int32> DiscreteActions = FActionSegment<int32>::Empty;
 		if (NumberDiscreteActions > 0)
 		{
-			DiscreteActions = FActionSegment<int32>(ActionBuffersOut.DiscreteActions.Array,
-				DiscreteStart,
-				NumberDiscreteActions);
+			DiscreteActions =
+				FActionSegment<int32>(ActionBuffersOut.DiscreteActions.Array, DiscreteStart, NumberDiscreteActions);
 		}
 		FActionBuffers TempActionBuffersOut(ContinuousActions, DiscreteActions);
 		Actuator->Heuristic(TempActionBuffersOut);
@@ -221,19 +221,15 @@ void UActuatorManager::ExecuteActions()
 		FActionSegment<float> ContinuousActions = FActionSegment<float>::Empty;
 		if (NumberContinuousActions > 0)
 		{
-			ContinuousActions = FActionSegment<float>(
-				StoredActions.ContinuousActions.Array,
-				ContinuousStart,
-				NumberContinuousActions);
+			ContinuousActions =
+				FActionSegment<float>(StoredActions.ContinuousActions.Array, ContinuousStart, NumberContinuousActions);
 		}
 
 		FActionSegment<int32> DiscreteActions = FActionSegment<int32>::Empty;
 		if (NumberDiscreteActions > 0)
 		{
-			DiscreteActions = FActionSegment<int32>(
-				StoredActions.DiscreteActions.Array,
-				DiscreteStart,
-				NumberDiscreteActions);
+			DiscreteActions =
+				FActionSegment<int32>(StoredActions.DiscreteActions.Array, DiscreteStart, NumberDiscreteActions);
 		}
 
 		Actuator->OnActionReceived(FActionBuffers(ContinuousActions, DiscreteActions));

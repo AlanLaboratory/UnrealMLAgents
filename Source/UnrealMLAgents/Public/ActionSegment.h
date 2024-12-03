@@ -4,15 +4,16 @@
 
 /**
  * @struct FActionSegment
- * @brief A template-based data structure that allows access to a segment of an underlying array without copying or allocating sub-arrays.
+ * @brief A template-based data structure that allows access to a segment of an underlying array without copying or
+ * allocating sub-arrays.
  *
- * The action segment is defined by an offset and length into the original array. This is useful for avoiding performance overhead
- * when dealing with large arrays or when working with segments of arrays for specific actions in the UnrealMLAgents system.
+ * The action segment is defined by an offset and length into the original array. This is useful for avoiding
+ * performance overhead when dealing with large arrays or when working with segments of arrays for specific actions in
+ * the UnrealMLAgents system.
  *
  * @tparam T The type of object stored in the underlying array.
  */
-template <typename T>
-struct FActionSegment
+template <typename T> struct FActionSegment
 {
 public:
 	/// The zero-based offset into the original array at which this segment starts.
@@ -35,7 +36,8 @@ public:
 	 * @param InArray A shared pointer to the array to use for this segment.
 	 */
 	FActionSegment(TSharedPtr<TArray<T>> InArray)
-		: FActionSegment(InArray.IsValid() ? InArray : FActionSegment<T>::GetEmptyArray(), 0, InArray.IsValid() ? InArray->Num() : 0)
+		: FActionSegment(InArray.IsValid() ? InArray : FActionSegment<T>::GetEmptyArray(), 0,
+			  InArray.IsValid() ? InArray->Num() : 0)
 	{
 	}
 
@@ -80,7 +82,8 @@ public:
 	{
 		if (InOffset + InLength > InArray.Num())
 		{
-			UE_LOG(LogTemp, Error, TEXT("Arguments offset: %d and length: %d are out of bounds of array: %d."), InOffset, InLength, InArray.Num());
+			UE_LOG(LogTemp, Error, TEXT("Arguments offset: %d and length: %d are out of bounds of array: %d."),
+				InOffset, InLength, InArray.Num());
 		}
 	}
 
@@ -124,7 +127,8 @@ public:
 	/**
 	 * @brief Clears the segment, resetting all elements to their default values.
 	 *
-	 * This method clears the segment by setting all elements within the segment range to their default-initialized state.
+	 * This method clears the segment by setting all elements within the segment range to their default-initialized
+	 * state.
 	 */
 	void Clear()
 	{
@@ -149,10 +153,7 @@ public:
 	 *
 	 * @return True if the segment is empty, false otherwise.
 	 */
-	bool IsEmpty() const
-	{
-		return Array == nullptr || Array->Num() == 0;
-	}
+	bool IsEmpty() const { return Array == nullptr || Array->Num() == 0; }
 
 	/**
 	 * @brief Equality operator.
@@ -176,8 +177,5 @@ public:
 	 * @param Other The other segment to compare to.
 	 * @return True if the segments are not equal, false otherwise.
 	 */
-	bool operator!=(const FActionSegment& Other) const
-	{
-		return !(*this == Other);
-	}
+	bool operator!=(const FActionSegment& Other) const { return !(*this == Other); }
 };

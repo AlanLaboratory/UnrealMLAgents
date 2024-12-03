@@ -31,10 +31,10 @@ public:
 	/**
 	 * @brief Default constructor.
 	 *
-	 * Initializes the `ObservationWriter` without any data target. Use `SetTarget` to define where the data will be written.
+	 * Initializes the `ObservationWriter` without any data target. Use `SetTarget` to define where the data will be
+	 * written.
 	 */
-	ObservationWriter()
-		: Data(nullptr), Offset(0), Batch(0) {}
+	ObservationWriter() : Data(nullptr), Offset(0), Batch(0) {}
 
 	/**
 	 * @brief Sets the target data array and the observation shape for writing.

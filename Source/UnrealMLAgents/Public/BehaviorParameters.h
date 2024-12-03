@@ -36,7 +36,8 @@ enum class EBehaviorType : uint8
 	/** The Agent will always use inference with the provided neural network model. */
 	InferenceOnly UMETA(DisplayName = "Inference Only"),
 
-	/** The Agent will use a remote process for decision making if available, otherwise will fallback to inference or heuristic. */
+	/** The Agent will use a remote process for decision making if available, otherwise will fallback to inference or
+	 * heuristic. */
 	Default UMETA(DisplayName = "Default")
 };
 
@@ -63,7 +64,8 @@ protected:
 	/**
 	 * @brief Called when the game starts.
 	 *
-	 * This method initializes the component when the game begins, setting up the agent's policy based on the behavior parameters.
+	 * This method initializes the component when the game begins, setting up the agent's policy based on the behavior
+	 * parameters.
 	 */
 	virtual void BeginPlay() override;
 
@@ -141,7 +143,8 @@ private:
 	/**
 	 * @brief Generates the appropriate policy for the agent based on the current behavior type.
 	 *
-	 * This function creates a new policy, either heuristic, inference-based, or remote, depending on the agent's configuration.
+	 * This function creates a new policy, either heuristic, inference-based, or remote, depending on the agent's
+	 * configuration.
 	 *
 	 * @param ActionSpec The action specification for the agent.
 	 * @param ActuatorManager The manager that controls the agent's actions.

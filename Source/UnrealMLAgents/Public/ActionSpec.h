@@ -28,10 +28,7 @@ public:
 	/**
 	 * @brief Default constructor initializing the continuous actions to 0.
 	 */
-	FActionSpec()
-		: NumContinuousActions(0)
-	{
-	}
+	FActionSpec() : NumContinuousActions(0) {}
 
 	/**
 	 * @brief Constructor with parameters for initializing continuous and discrete actions.
@@ -50,10 +47,7 @@ public:
 	 * @param NumActions The number of continuous actions available.
 	 * @return A Continuous ActionSpec initialized with the number of actions.
 	 */
-	static FActionSpec MakeContinuous(int32 NumActions)
-	{
-		return FActionSpec(NumActions, TArray<int32>());
-	}
+	static FActionSpec MakeContinuous(int32 NumActions) { return FActionSpec(NumActions, TArray<int32>()); }
 
 	/**
 	 * @brief Creates a Discrete ActionSpec with the array of branch sizes representing the action space.
@@ -61,10 +55,7 @@ public:
 	 * @param InBranchSizes The array of branch sizes for the discrete actions.
 	 * @return A Discrete ActionSpec initialized with the array of branch sizes.
 	 */
-	static FActionSpec MakeDiscrete(const TArray<int32>& InBranchSizes)
-	{
-		return FActionSpec(0, InBranchSizes);
-	}
+	static FActionSpec MakeDiscrete(const TArray<int32>& InBranchSizes) { return FActionSpec(0, InBranchSizes); }
 
 	/**
 	 * @brief Checks that the ActionSpec uses either all continuous or all discrete actions.
@@ -76,8 +67,9 @@ public:
 	{
 		if (NumContinuousActions > 0 && BranchSizes.Num() > 0)
 		{
-			UE_LOG(LogTemp, Error, TEXT("Action spaces with both continuous and discrete actions are not supported. "
-										"ActionSpecs must be all continuous or all discrete."));
+			UE_LOG(LogTemp, Error,
+				TEXT("Action spaces with both continuous and discrete actions are not supported. "
+					 "ActionSpecs must be all continuous or all discrete."));
 		}
 	}
 
@@ -113,7 +105,8 @@ public:
 			if (Spec.BranchSizes.Num() > 0)
 			{
 				const int32 BranchSizeCount = Spec.BranchSizes.Num();
-				FMemory::Memcpy(CombinedBranchSizes.GetData() + Offset, Spec.BranchSizes.GetData(), BranchSizeCount * sizeof(int32));
+				FMemory::Memcpy(CombinedBranchSizes.GetData() + Offset, Spec.BranchSizes.GetData(),
+					BranchSizeCount * sizeof(int32));
 				Offset += BranchSizeCount;
 			}
 		}
@@ -141,8 +134,5 @@ public:
 	 *
 	 * @return The number of branches for discrete actions.
 	 */
-	int32 GetNumDiscreteActions() const
-	{
-		return BranchSizes.Num();
-	}
+	int32 GetNumDiscreteActions() const { return BranchSizes.Num(); }
 };

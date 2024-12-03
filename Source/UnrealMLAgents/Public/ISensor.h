@@ -87,7 +87,8 @@ public:
  * @brief Helper class that provides utility methods for sensors.
  *
  * The `USensorExtensions` class contains helper methods that can be used with sensors implementing the `IISensor`
- * interface. These methods are useful for operations such as calculating the total number of elements in an observation.
+ * interface. These methods are useful for operations such as calculating the total number of elements in an
+ * observation.
  */
 UCLASS()
 class UNREALMLAGENTS_API USensorExtensions : public UObject

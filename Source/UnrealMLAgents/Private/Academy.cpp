@@ -98,13 +98,19 @@ void UAcademy::InitializeEnvironment()
 			}
 			else
 			{
-				UE_LOG(LogTemp, Warning, TEXT("Couldn't connect to trainer on port %d using API version %s. Will perform inference instead."), Port, *CommunicatorInitParams.UnrealCommunicationVersion);
+				UE_LOG(LogTemp, Warning,
+					TEXT(
+						"Couldn't connect to trainer on port %d using API version %s. Will perform inference instead."),
+					Port, *CommunicatorInitParams.UnrealCommunicationVersion);
 				RpcCommunicator = nullptr;
 			}
 		}
 		catch (const std::exception& Ex)
 		{
-			UE_LOG(LogTemp, Error, TEXT("Unexpected exception when trying to initialize communication: %s\nWill perform inference instead."), UTF8_TO_TCHAR(Ex.what()));
+			UE_LOG(LogTemp, Error,
+				TEXT(
+					"Unexpected exception when trying to initialize communication: %s\nWill perform inference instead."),
+				UTF8_TO_TCHAR(Ex.what()));
 			RpcCommunicator = nullptr;
 		}
 	}

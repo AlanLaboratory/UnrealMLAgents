@@ -55,7 +55,8 @@ public:
 	 * @param InitParametersOut Output parameters received from the external system.
 	 * @return True if initialization was successful, false otherwise.
 	 */
-	virtual bool Initialize(const FCommunicatorInitParameters& InitParameters, FUnrealRLInitParameters& InitParametersOut) override;
+	virtual bool Initialize(
+		const FCommunicatorInitParameters& InitParameters, FUnrealRLInitParameters& InitParametersOut) override;
 
 	/**
 	 * @brief Subscribes a brain to the communicator by registering the brain's name and action specification.
@@ -72,7 +73,8 @@ public:
 	 * @param Info Information about the agent's current state.
 	 * @param Sensors A list of sensors that generate the observations.
 	 */
-	virtual void PutObservations(const FString& BrainKey, const FAgentInfo& Info, TArray<TScriptInterface<IISensor>>& Sensors) override;
+	virtual void PutObservations(
+		const FString& BrainKey, const FAgentInfo& Info, TArray<TScriptInterface<IISensor>>& Sensors) override;
 
 	/**
 	 * @brief Requests the external system to decide actions for the current batch of agents.
@@ -122,7 +124,9 @@ private:
 	 * @param UnrealInput The input data from the external system.
 	 * @return The UnrealInputProto structure containing initialization data.
 	 */
-	communicator_objects::UnrealInputProto Initialize(int32 Port, const communicator_objects::UnrealOutputProto& UnrealOutput, communicator_objects::UnrealInputProto& UnrealInput);
+	communicator_objects::UnrealInputProto Initialize(int32 Port,
+		const communicator_objects::UnrealOutputProto&		UnrealOutput,
+		communicator_objects::UnrealInputProto&				UnrealInput);
 
 	/**
 	 * @brief Wraps a message in a gRPC-compatible format for communication.
@@ -131,7 +135,8 @@ private:
 	 * @param Status The status code of the message.
 	 * @return A properly formatted UnrealMessageProto message.
 	 */
-	static communicator_objects::UnrealMessageProto WrapMessage(const communicator_objects::UnrealOutputProto* Content, int32 Status);
+	static communicator_objects::UnrealMessageProto WrapMessage(
+		const communicator_objects::UnrealOutputProto* Content, int32 Status);
 
 	/**
 	 * @brief Verifies that the communication versions of Unreal and Python are compatible.
@@ -140,7 +145,8 @@ private:
 	 * @param pythonApiVersion The communication version of the Python server.
 	 * @return True if the versions are compatible, false otherwise.
 	 */
-	static bool CheckCommunicationVersionAreCompatible(const FString& unityCommunicationVersion, const FString& pythonApiVersion);
+	static bool CheckCommunicationVersionAreCompatible(
+		const FString& unityCommunicationVersion, const FString& pythonApiVersion);
 
 	/**
 	 * @brief Establishes the communication channel with the external system using the specified port.
@@ -157,7 +163,8 @@ private:
 	 * @param Response The response received from the external system.
 	 * @return True if the message exchange was successful, false otherwise.
 	 */
-	bool SendAndReceiveMessage(const communicator_objects::UnrealMessageProto& Request, communicator_objects::UnrealMessageProto& Response);
+	bool SendAndReceiveMessage(
+		const communicator_objects::UnrealMessageProto& Request, communicator_objects::UnrealMessageProto& Response);
 
 	/**
 	 * @brief Caches the action specification for a specific brain.
@@ -209,7 +216,8 @@ private:
 	 * @param ObsWriter The writer used to record the sensor's observations into the ObservationProto.
 	 * @return The generated gRPC `ObservationProto` message for communication with external systems.
 	 */
-	communicator_objects::ObservationProto GetObservationProto(TScriptInterface<IISensor> Sensor, ObservationWriter& ObsWriter);
+	communicator_objects::ObservationProto GetObservationProto(
+		TScriptInterface<IISensor> Sensor, ObservationWriter& ObsWriter);
 
 	/**
 	 * @brief Converts gRPC `AgentActionProto` messages into Unreal Engine's action buffers.
@@ -255,7 +263,8 @@ private:
 	 * @param bIsTraining Whether the agent is currently in training mode.
 	 * @return The gRPC `BrainParametersProto` message to be sent to external systems.
 	 */
-	communicator_objects::BrainParametersProto ToBrainParametersProto(const FActionSpec& ActionSpec, FString Name, bool bIsTraining);
+	communicator_objects::BrainParametersProto ToBrainParametersProto(
+		const FActionSpec& ActionSpec, FString Name, bool bIsTraining);
 
 	/**
 	 * @brief Converts Unreal Engine's `FAgentInfo` into a gRPC `AgentInfoProto` message.

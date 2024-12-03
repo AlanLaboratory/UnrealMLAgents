@@ -12,8 +12,7 @@
  *
  * @tparam T The type of the elements stored in the array.
  */
-template <typename T>
-struct FInplaceArray
+template <typename T> struct FInplaceArray
 {
 private:
 	/** The maximum length of the array. */
@@ -40,40 +39,34 @@ public:
 	 *
 	 * The length is set to zero, and all elements are initialized to their default values.
 	 */
-	FInplaceArray()
-		: Length(0), Elem0(T()), Elem1(T()), Elem2(T()), Elem3(T())
-	{
-	}
+	FInplaceArray() : Length(0), Elem0(T()), Elem1(T()), Elem2(T()), Elem3(T()) {}
 
 	/**
 	 * @brief Constructor that initializes the array with one element.
 	 *
-	 * The first element is set to the provided value, and the remaining elements are initialized to their default values.
+	 * The first element is set to the provided value, and the remaining elements are initialized to their default
+	 * values.
 	 *
 	 * @param InElem0 The first element to store in the array.
 	 */
-	FInplaceArray(T InElem0)
-		: Length(1), Elem0(InElem0), Elem1(T()), Elem2(T()), Elem3(T())
-	{
-	}
+	FInplaceArray(T InElem0) : Length(1), Elem0(InElem0), Elem1(T()), Elem2(T()), Elem3(T()) {}
 
 	/**
 	 * @brief Constructor that initializes the array with two elements.
 	 *
-	 * The first two elements are set to the provided values, and the remaining elements are initialized to their default values.
+	 * The first two elements are set to the provided values, and the remaining elements are initialized to their
+	 * default values.
 	 *
 	 * @param InElem0 The first element to store in the array.
 	 * @param InElem1 The second element to store in the array.
 	 */
-	FInplaceArray(T InElem0, T InElem1)
-		: Length(2), Elem0(InElem0), Elem1(InElem1), Elem2(T()), Elem3(T())
-	{
-	}
+	FInplaceArray(T InElem0, T InElem1) : Length(2), Elem0(InElem0), Elem1(InElem1), Elem2(T()), Elem3(T()) {}
 
 	/**
 	 * @brief Constructor that initializes the array with three elements.
 	 *
-	 * The first three elements are set to the provided values, and the remaining element is initialized to its default value.
+	 * The first three elements are set to the provided values, and the remaining element is initialized to its default
+	 * value.
 	 *
 	 * @param InElem0 The first element to store in the array.
 	 * @param InElem1 The second element to store in the array.
@@ -104,10 +97,7 @@ public:
 	 *
 	 * @return The number of elements in the array.
 	 */
-	int32 GetLength() const
-	{
-		return Length;
-	}
+	int32 GetLength() const { return Length; }
 
 	/**
 	 * @brief Accesses an element by index.

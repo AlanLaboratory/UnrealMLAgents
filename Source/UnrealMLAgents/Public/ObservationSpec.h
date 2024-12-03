@@ -42,7 +42,8 @@ public:
 	 * @param InDimensionProperties The properties of each dimension in the observation.
 	 * @param InObservationType The type of the observation (default is generic).
 	 */
-	FObservationSpec(FInplaceArray<int32> InShape, FInplaceArray<EDimensionProperty> InDimensionProperties, EObservationType InObservationType = EObservationType::Default)
+	FObservationSpec(FInplaceArray<int32> InShape, FInplaceArray<EDimensionProperty> InDimensionProperties,
+		EObservationType InObservationType = EObservationType::Default)
 		: Shape(InShape), DimensionProperties(InDimensionProperties), ObservationType(InObservationType)
 	{
 		check(Shape.GetLength() == DimensionProperties.GetLength());
@@ -53,40 +54,28 @@ public:
 	 *
 	 * @return The shape of the observation as an `FInplaceArray<int32>`.
 	 */
-	const FInplaceArray<int32>& GetShape() const
-	{
-		return Shape;
-	}
+	const FInplaceArray<int32>& GetShape() const { return Shape; }
 
 	/**
 	 * @brief Gets the properties of each dimension in the observation.
 	 *
 	 * @return The dimension properties as an `FInplaceArray<EDimensionProperty>`.
 	 */
-	const FInplaceArray<EDimensionProperty>& GetDimensionProperties() const
-	{
-		return DimensionProperties;
-	}
+	const FInplaceArray<EDimensionProperty>& GetDimensionProperties() const { return DimensionProperties; }
 
 	/**
 	 * @brief Gets the type of the observation.
 	 *
 	 * @return The type of the observation as an `EObservationType`.
 	 */
-	EObservationType GetObservationType() const
-	{
-		return ObservationType;
-	}
+	EObservationType GetObservationType() const { return ObservationType; }
 
 	/**
 	 * @brief Gets the number of dimensions (rank) of the observation.
 	 *
 	 * @return The number of dimensions (rank) of the observation.
 	 */
-	int32 GetRank() const
-	{
-		return Shape.GetLength();
-	}
+	int32 GetRank() const { return Shape.GetLength(); }
 
 	/**
 	 * @brief Constructs an observation spec for 1-D vector observations.
@@ -99,7 +88,8 @@ public:
 	 */
 	static FObservationSpec Vector(int32 Length, EObservationType InObservationType = EObservationType::Default)
 	{
-		return FObservationSpec(FInplaceArray<int32>(Length), FInplaceArray<EDimensionProperty>(EDimensionProperty::None), InObservationType);
+		return FObservationSpec(FInplaceArray<int32>(Length),
+			FInplaceArray<EDimensionProperty>(EDimensionProperty::None), InObservationType);
 	}
 
 	/**
@@ -114,7 +104,8 @@ public:
 	 */
 	static FObservationSpec VariableLength(int32 ObsSize, int32 MaxNumObs)
 	{
-		return FObservationSpec(FInplaceArray<int32>(ObsSize, MaxNumObs), FInplaceArray<EDimensionProperty>(EDimensionProperty::VariableSize, EDimensionProperty::None));
+		return FObservationSpec(FInplaceArray<int32>(ObsSize, MaxNumObs),
+			FInplaceArray<EDimensionProperty>(EDimensionProperty::VariableSize, EDimensionProperty::None));
 	}
 
 	/**
@@ -130,8 +121,12 @@ public:
 	 * @param InObservationType The type of the observation (default is generic).
 	 * @return A visual observation spec.
 	 */
-	static FObservationSpec Visual(int32 Channels, int32 Height, int32 Width, EObservationType InObservationType = EObservationType::Default)
+	static FObservationSpec Visual(
+		int32 Channels, int32 Height, int32 Width, EObservationType InObservationType = EObservationType::Default)
 	{
-		return FObservationSpec(FInplaceArray<int32>(Channels, Height, Width), FInplaceArray<EDimensionProperty>(EDimensionProperty::None, EDimensionProperty::TranslationalEquivariance, EDimensionProperty::TranslationalEquivariance), InObservationType);
+		return FObservationSpec(FInplaceArray<int32>(Channels, Height, Width),
+			FInplaceArray<EDimensionProperty>(EDimensionProperty::None, EDimensionProperty::TranslationalEquivariance,
+				EDimensionProperty::TranslationalEquivariance),
+			InObservationType);
 	}
 };
