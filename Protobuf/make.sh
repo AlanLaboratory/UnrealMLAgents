@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # GRPC-TOOLS required. Install with `nuget install Grpc.Tools`.
 # Then un-comment and replace [DIRECTORY] with location of files.
 # For example, on macOS, you might have something like:
