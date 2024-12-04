@@ -1,5 +1,3 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #include "Academy.h"
 #include "Editor/EditorEngine.h"
 #include "Editor.h"
