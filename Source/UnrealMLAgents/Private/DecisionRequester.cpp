@@ -1,6 +1,6 @@
-#include "DecisionRequester.h"
-#include "Agent.h"
-#include "Academy.h"
+#include "UnrealMLAgents/DecisionRequester.h"
+#include "UnrealMLAgents/Agent.h"
+#include "UnrealMLAgents/Academy.h"
 
 UDecisionRequester::UDecisionRequester()
 {
