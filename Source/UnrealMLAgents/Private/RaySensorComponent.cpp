@@ -18,6 +18,8 @@ FRayInput URaySensorComponent::GetRayInput()
 	RayInput.RayLength = RayLength;
 	RayInput.Transform = GetOwner()->GetActorTransform();
 	RayInput.Angles = GetRayAngles();
+	RayInput.PitchAngle = PitchAngle;
+	RayInput.bDrawDebugLines = bDebugLine;
 	RayInput.RayAxis = RayAxis;
 	RayInput.StartOffset = StartOffset;
 	RayInput.YawOffset = YawOffset;

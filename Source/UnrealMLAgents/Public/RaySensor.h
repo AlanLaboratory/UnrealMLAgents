@@ -53,6 +53,10 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ray Perception")
 	float YawOffset;
 
+	// Uniform pitch angle for all rays
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ray Perception")
+	float PitchAngle;
+
 	// Get the number of observations
 	int32 OutputSize() { return Angles.Num() * 2; }
 };
@@ -80,10 +84,10 @@ public:
 private:
 	void	PerformRaycasts();
 	FVector GetForwardVector() const;
-	float	GetActorHash(AActor* Actor);
+	float	GetActorTag(AActor* Actor);
 	float	HashToFloat(const FString& HashString);
 	void	SetNumObservations(int32 NumberObservations);
-	FVector CalculateDirectionForAxis(float RadAngle, ERayAxis RayAxis);
+	FVector CalculateDirectionForAxis(float RadAngle, ERayAxis RayAxis, float PitchAngle);
 
 	FObservationSpec   _ObservationSpec;
 	TArray<float>	   _Observations;

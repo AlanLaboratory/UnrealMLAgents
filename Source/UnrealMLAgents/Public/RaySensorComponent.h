@@ -94,6 +94,25 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ray Perception")
 	float YawOffset;
 
+	/**
+	 * @brief The pitch angle for all rays.
+	 *
+	 * This property defines the uniform vertical tilt (pitch) applied to all rays.
+	 * A value of 0 results in rays pointing straight forward.
+	 * Negative values tilt the rays downward, and positive values tilt them upward.
+	 */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ray Perception")
+	float PitchAngle;
+
+	/**
+	 * @brief Activate or deactivate the raycast debug lines
+	 *
+	 * Display the raycast debug lines
+	 */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ray Perception")
+	bool bDebugLine;
+
+
 private:
 	/**
 	 * @brief Generates the input data for casting the rays.
