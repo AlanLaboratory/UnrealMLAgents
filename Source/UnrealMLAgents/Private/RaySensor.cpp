@@ -34,7 +34,7 @@ int32 URaySensor::Write(ObservationWriter& Writer)
 	for (const FHitResult& HitResult : _HitResults)
 	{
 		AActor* HitActor = HitResult.GetActor();
-		float Tag = GetActorTag(HitActor);
+		float	Tag = GetActorTag(HitActor);
 		_Observations.Add(HitResult.Distance);
 		_Observations.Add(Tag);
 	}
@@ -85,7 +85,8 @@ void URaySensor::PerformRaycasts()
 
 		if (_World->LineTraceSingleByChannel(HitResult, Origin, End, ECC_Visibility, Params))
 		{
-			if (_RayInput.bDrawDebugLines) {
+			if (_RayInput.bDrawDebugLines)
+			{
 				DrawDebugLine(_World, Origin, HitResult.Location, FColor::Green, false, -1, 0, 5);
 			}
 			_HitResults.Add(HitResult);
@@ -93,7 +94,8 @@ void URaySensor::PerformRaycasts()
 		else
 		{
 
-			if (_RayInput.bDrawDebugLines) {
+			if (_RayInput.bDrawDebugLines)
+			{
 				DrawDebugLine(_World, Origin, End, FColor::Red, false, -1, 0, 5);
 			}
 			HitResult.Distance = _RayInput.RayLength;
@@ -110,10 +112,9 @@ float URaySensor::GetActorTag(AActor* Actor)
 	}
 
 	// Convert the string tag to a float
-    FName FirstTagName = Actor->Tags[0];
-    FString TagAsString = FirstTagName.ToString();
-    return FCString::Atof(*TagAsString);
-
+	FName	FirstTagName = Actor->Tags[0];
+	FString TagAsString = FirstTagName.ToString();
+	return FCString::Atof(*TagAsString);
 }
 
 float URaySensor::HashToFloat(const FString& HashString)
@@ -129,25 +130,29 @@ float URaySensor::HashToFloat(const FString& HashString)
 
 FVector URaySensor::CalculateDirectionForAxis(float RadAngle, ERayAxis RayAxis, float PitchAngle)
 {
-    FVector LocalDirection;
+	FVector LocalDirection;
 
-    float PitchRad = FMath::DegreesToRadians(PitchAngle);
+	float PitchRad = FMath::DegreesToRadians(PitchAngle);
 
-    switch (RayAxis)
-    {
-        case ERayAxis::X:
-            LocalDirection = FVector(FMath::Cos(RadAngle) * FMath::Cos(PitchRad), FMath::Sin(RadAngle) * FMath::Cos(PitchRad), FMath::Sin(PitchRad)); // XY plane with pitch
-            break;
-        case ERayAxis::Y:
-            LocalDirection = FVector(FMath::Sin(PitchRad), FMath::Cos(RadAngle) * FMath::Cos(PitchRad), FMath::Sin(RadAngle) * FMath::Cos(PitchRad)); // YZ plane with pitch
-            break;
-        case ERayAxis::Z:
-            LocalDirection = FVector(FMath::Cos(RadAngle) * FMath::Cos(PitchRad), FMath::Sin(PitchRad), FMath::Sin(RadAngle) * FMath::Cos(PitchRad)); // XZ plane with pitch
-            break;
-        default:
-            LocalDirection = FVector(FMath::Cos(RadAngle) * FMath::Cos(PitchRad), FMath::Sin(RadAngle) * FMath::Cos(PitchRad), FMath::Sin(PitchRad)); // Default to XY plane
-            break;
-    }
+	switch (RayAxis)
+	{
+		case ERayAxis::X:
+			LocalDirection = FVector(FMath::Cos(RadAngle) * FMath::Cos(PitchRad),
+				FMath::Sin(RadAngle) * FMath::Cos(PitchRad), FMath::Sin(PitchRad)); // XY plane with pitch
+			break;
+		case ERayAxis::Y:
+			LocalDirection = FVector(FMath::Sin(PitchRad), FMath::Cos(RadAngle) * FMath::Cos(PitchRad),
+				FMath::Sin(RadAngle) * FMath::Cos(PitchRad)); // YZ plane with pitch
+			break;
+		case ERayAxis::Z:
+			LocalDirection = FVector(FMath::Cos(RadAngle) * FMath::Cos(PitchRad), FMath::Sin(PitchRad),
+				FMath::Sin(RadAngle) * FMath::Cos(PitchRad)); // XZ plane with pitch
+			break;
+		default:
+			LocalDirection = FVector(FMath::Cos(RadAngle) * FMath::Cos(PitchRad),
+				FMath::Sin(RadAngle) * FMath::Cos(PitchRad), FMath::Sin(PitchRad)); // Default to XY plane
+			break;
+	}
 
-    return LocalDirection;
+	return LocalDirection;
 }

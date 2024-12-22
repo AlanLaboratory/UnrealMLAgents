@@ -112,7 +112,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ray Perception")
 	bool bDebugLine;
 
-
 private:
 	/**
 	 * @brief Generates the input data for casting the rays.
