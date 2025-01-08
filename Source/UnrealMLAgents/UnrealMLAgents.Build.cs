@@ -6,16 +6,20 @@ using System.Reflection;
 
 public class UnrealMLAgents : ModuleRules
 {
-	private static CommunicatorPlatform CommunicatorPlatformInstance;
+	private static MLAgentsPlatform MLAgentsPlatformInstance;
 
 	public UnrealMLAgents(ReadOnlyTargetRules Target) : base(Target)
 	{
 		PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;
-		CommunicatorPlatformInstance = GetCommunicatorPlatformInstance(Target);
+		MLAgentsPlatformInstance = GetMLAgentsPlatformInstance(Target);
 		bEnableExceptions = true;
 
-		PrivateDependencyModuleNames.AddRange(
-			new string[] { "Slate", "SlateCore", "Core", "CoreUObject", "Engine", "UnrealEd" });
+		PrivateDependencyModuleNames.AddRange(new string[] { "Slate", "SlateCore", "Core", "CoreUObject", "Engine" });
+
+		if (Target.bBuildEditor)
+		{
+			PrivateDependencyModuleNames.AddRange(new string[] { "UnrealEd" });
+		}
 
 		AddEngineThirdPartyPrivateStaticDependencies(Target, "OpenSSL");
 		AddEngineThirdPartyPrivateStaticDependencies(Target, "zlib");
@@ -31,17 +35,20 @@ public class UnrealMLAgents : ModuleRules
 
 		// ThirdParty Libraries
 		ConfigurePlatform(Target.Platform.ToString(), Target.Configuration);
+
+		PublicDefinitions.Add("WIN32_LEAN_AND_MEAN");
+		PublicDefinitions.Add("NOMINMAX");
 	}
 
-	private CommunicatorPlatform GetCommunicatorPlatformInstance(ReadOnlyTargetRules Target)
+	private MLAgentsPlatform GetMLAgentsPlatformInstance(ReadOnlyTargetRules Target)
 	{
-		var CommunicatorPlatformType = System.Type.GetType("CommunicatorPlatform_" + Target.Platform.ToString());
-		if (CommunicatorPlatformType == null)
+		var MLAgentsPlatformType = System.Type.GetType("MLAgentsPlatform_" + Target.Platform.ToString());
+		if (MLAgentsPlatformType == null)
 		{
 			throw new BuildException("UnrealMLAgents does not support platform " + Target.Platform.ToString());
 		}
 
-		var PlatformInstance = Activator.CreateInstance(CommunicatorPlatformType) as CommunicatorPlatform;
+		var PlatformInstance = Activator.CreateInstance(MLAgentsPlatformType) as MLAgentsPlatform;
 		if (PlatformInstance == null)
 		{
 			throw new BuildException("UnrealMLAgents could not instantiate platform " + Target.Platform.ToString());
@@ -82,53 +89,50 @@ public class UnrealMLAgents : ModuleRules
 		// grpc
 		foreach (var lib in GrpcLibs)
 		{
-			foreach (var arch in CommunicatorPlatformInstance.Architectures())
+			foreach (var arch in MLAgentsPlatformInstance.Architectures())
 			{
-				string fullPath = root + "grpc/" + "lib/" + CommunicatorPlatformInstance.LibrariesPath + arch
-					+ CommunicatorPlatformInstance.ConfigurationDir(Configuration)
-					+ CommunicatorPlatformInstance.LibraryPrefixName + lib
-					+ CommunicatorPlatformInstance.LibraryPostfixName;
+				string fullPath = root + "grpc/" + "lib/" + MLAgentsPlatformInstance.LibrariesPath + arch
+					+ MLAgentsPlatformInstance.ConfigurationDir(Configuration)
+					+ MLAgentsPlatformInstance.LibraryPrefixName + lib + MLAgentsPlatformInstance.LibraryPostfixName;
 				PublicAdditionalLibraries.Add(fullPath);
 			}
 		}
 		// protobuf
 		foreach (var lib in ProtobufLibs)
 		{
-			foreach (var arch in CommunicatorPlatformInstance.Architectures())
+			foreach (var arch in MLAgentsPlatformInstance.Architectures())
 			{
-				string libPrefixName = CommunicatorPlatformInstance.LibraryPrefixName;
-				if (CommunicatorPlatformInstance is CommunicatorPlatform_Win64 && lib == "protobuf")
+				string libPrefixName = MLAgentsPlatformInstance.LibraryPrefixName;
+				if (MLAgentsPlatformInstance is MLAgentsPlatform_Win64 && lib == "protobuf")
 				{
 					libPrefixName = "lib"; //'libprotobuf.lib'
 				}
 
-				string fullPath = root + "protobuf/" + "lib/" + CommunicatorPlatformInstance.LibrariesPath + arch
-					+ CommunicatorPlatformInstance.ConfigurationDir(Configuration) + libPrefixName + lib
-					+ CommunicatorPlatformInstance.LibraryPostfixName;
+				string fullPath = root + "protobuf/" + "lib/" + MLAgentsPlatformInstance.LibrariesPath + arch
+					+ MLAgentsPlatformInstance.ConfigurationDir(Configuration) + libPrefixName + lib
+					+ MLAgentsPlatformInstance.LibraryPostfixName;
 				PublicAdditionalLibraries.Add(fullPath);
 			}
 		}
 		// abseil
 		foreach (var lib in AbseilLibs)
 		{
-			foreach (var arch in CommunicatorPlatformInstance.Architectures())
+			foreach (var arch in MLAgentsPlatformInstance.Architectures())
 			{
-				string fullPath = root + "abseil/" + "lib/" + CommunicatorPlatformInstance.LibrariesPath + arch
-					+ CommunicatorPlatformInstance.ConfigurationDir(Configuration)
-					+ CommunicatorPlatformInstance.LibraryPrefixName + lib
-					+ CommunicatorPlatformInstance.LibraryPostfixName;
+				string fullPath = root + "abseil/" + "lib/" + MLAgentsPlatformInstance.LibrariesPath + arch
+					+ MLAgentsPlatformInstance.ConfigurationDir(Configuration)
+					+ MLAgentsPlatformInstance.LibraryPrefixName + lib + MLAgentsPlatformInstance.LibraryPostfixName;
 				PublicAdditionalLibraries.Add(fullPath);
 			}
 		}
 		// re2
 		foreach (var lib in Re2Libs)
 		{
-			foreach (var arch in CommunicatorPlatformInstance.Architectures())
+			foreach (var arch in MLAgentsPlatformInstance.Architectures())
 			{
-				string fullPath = root + "re2/" + "lib/" + CommunicatorPlatformInstance.LibrariesPath + arch
-					+ CommunicatorPlatformInstance.ConfigurationDir(Configuration)
-					+ CommunicatorPlatformInstance.LibraryPrefixName + lib
-					+ CommunicatorPlatformInstance.LibraryPostfixName;
+				string fullPath = root + "re2/" + "lib/" + MLAgentsPlatformInstance.LibrariesPath + arch
+					+ MLAgentsPlatformInstance.ConfigurationDir(Configuration)
+					+ MLAgentsPlatformInstance.LibraryPrefixName + lib + MLAgentsPlatformInstance.LibraryPostfixName;
 				PublicAdditionalLibraries.Add(fullPath);
 			}
 		}
@@ -136,7 +140,7 @@ public class UnrealMLAgents : ModuleRules
 	}
 }
 
-public abstract class CommunicatorPlatform
+public abstract class MLAgentsPlatform
 {
 	public virtual string ConfigurationDir(UnrealTargetConfiguration Configuration)
 	{
@@ -155,7 +159,7 @@ public abstract class CommunicatorPlatform
 	public abstract string		 LibraryPostfixName { get; }
 }
 
-public class CommunicatorPlatform_Win64 : CommunicatorPlatform
+public class MLAgentsPlatform_Win64 : MLAgentsPlatform
 {
 	public override string ConfigurationDir(UnrealTargetConfiguration Configuration)
 	{
@@ -189,7 +193,7 @@ public class CommunicatorPlatform_Win64 : CommunicatorPlatform
 	}
 }
 
-public class CommunicatorPlatform_Linux : CommunicatorPlatform
+public class MLAgentsPlatform_Linux : MLAgentsPlatform
 {
 	public override string LibrariesPath
 	{
@@ -212,7 +216,7 @@ public class CommunicatorPlatform_Linux : CommunicatorPlatform
 	}
 }
 
-public class CommunicatorPlatform_Mac : CommunicatorPlatform
+public class MLAgentsPlatform_Mac : MLAgentsPlatform
 {
 	public override string ConfigurationDir(UnrealTargetConfiguration Configuration) { return ""; }
 	public override		   string LibrariesPath

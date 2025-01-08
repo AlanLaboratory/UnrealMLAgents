@@ -17,35 +17,27 @@ struct UNREALMLAGENTS_API FAgentInfo
 	GENERATED_BODY()
 
 	/** @brief The current reward for the agent. */
-	UPROPERTY(BlueprintReadWrite)
 	float Reward;
 
 	/** @brief The current group reward received by the agent. */
-	UPROPERTY(BlueprintReadWrite)
 	float GroupReward;
 
 	/** @brief Whether the agent is done (i.e., whether it has completed its episode). */
-	UPROPERTY(BlueprintReadWrite)
 	bool bDone;
 
 	/** @brief Whether the agent has reached its maximum step count for the current episode. */
-	UPROPERTY(BlueprintReadWrite)
 	bool bMaxStepReached;
 
 	/** @brief The episode identifier assigned to the agent at each reset. */
-	UPROPERTY(BlueprintReadWrite)
 	int32 EpisodeId;
 
 	/** @brief The MultiAgentGroup identifier for the agent. */
-	UPROPERTY(BlueprintReadWrite)
 	int32 GroupId;
 
 	/** @brief The action buffers containing the most recent actions taken by the agent. */
-	UPROPERTY(BlueprintReadWrite)
 	FActionBuffers StoredActions;
 
 	/** @brief For discrete control, specifies the actions that the agent cannot take. */
-	UPROPERTY(BlueprintReadWrite)
 	TArray<bool> DiscreteActionMasks;
 
 	/**

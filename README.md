@@ -64,6 +64,9 @@ be especially valuable:
 
 Please feel free to submit pull requests or open issues if you would like to contribute or report bugs.
 
+Currently, we lack of build checks in PRs, so please try to validate the plugin builds correctly before submitting a PR.
+Check [here](#build-with-automation-tool) to build using command line tools provided by UE5.
+
 ## Documentation
 
 All code is well-documented, and much of the documentation was inspired by Unity ML-Agents. Most methods, classes, and
@@ -73,3 +76,14 @@ general documentation to make it easier for developers to get started.
 For now, you can refer to Unity's excellent documentation here: [Unity ML-Agents Documentation](https://unity-technologies.github.io/ml-agents/ML-Agents-Overview/).
 
 More detailed Unreal-specific documentation is in progress.
+
+## Build with Automation Tool
+
+UE Automation Tool can be used to build the plugin, currently used for build checks when making changes.
+
+As an example on Windows, using `cmd`:
+```
+F:\UE_5.2\Engine\Build\BatchFiles\RunUAT.bat BuildPlugin -plugin="<path to this repo>\UnrealMLAgents.uplugin" -package="<somewhere>" -TargetPlatforms=Win64
+```
+
+[source](https://dev.epicgames.com/community/learning/tutorials/qz93/unreal-engine-building-plugins)

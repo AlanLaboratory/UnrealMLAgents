@@ -1,7 +1,13 @@
 #include "UnrealMLAgents/Academy.h"
-#include "Editor/EditorEngine.h"
-#include "Editor.h"
+
+#if WITH_EDITOR
+	#include "Editor/EditorEngine.h"
+	#include "Editor.h"
+#endif
+
 #include "GenericPlatform/GenericPlatformMisc.h"
+#include "Misc/CoreDelegates.h"
+#include "Misc/CommandLine.h"
 
 UAcademy* UAcademy::Instance = nullptr;
 

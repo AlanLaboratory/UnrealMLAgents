@@ -11,6 +11,13 @@
 #include "ueagents_envs/communicator_objects/unreal_rl_output.pb.h"
 #include "ueagents_envs/communicator_objects/unreal_message.pb.h"
 #include "ueagents_envs/communicator_objects/unreal_rl_input.pb.h"
+
+// This should fix error C2039: 'GetObjectW': is not a member of 'TScriptInterface<IBlendableInterface>'
+// Issues seems to be related to an issue in the generated files.
+#ifdef GetObject
+	#undef GetObject
+#endif
+
 #include "RpcCommunicator.generated.h"
 
 /**

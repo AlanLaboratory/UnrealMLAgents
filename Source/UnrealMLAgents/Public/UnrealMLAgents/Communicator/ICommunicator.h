@@ -24,23 +24,18 @@ struct FCommunicatorInitParameters
 	GENERATED_BODY()
 
 	/** @brief The port number used for communication. */
-	UPROPERTY(BlueprintReadWrite)
 	int32 Port;
 
 	/** @brief The name of the Unreal environment. */
-	UPROPERTY(BlueprintReadWrite)
 	FString Name;
 
 	/** @brief The version of the Unreal package. */
-	UPROPERTY(BlueprintReadWrite)
 	FString UnrealPackageVersion;
 
 	/** @brief The version of the Unreal communication protocol. */
-	UPROPERTY(BlueprintReadWrite)
 	FString UnrealCommunicationVersion;
 
 	/** @brief Capabilities of the C# codebase used in the RL framework. */
-	UPROPERTY(BlueprintReadWrite)
 	FString CSharpCapabilities;
 };
 
@@ -57,23 +52,18 @@ struct FUnrealRLInitParameters
 	GENERATED_BODY()
 
 	/** @brief The random number seed sent from the external trainer. */
-	UPROPERTY(BlueprintReadWrite)
 	int32 Seed;
 
 	/** @brief The number of areas in the Unreal environment. */
-	UPROPERTY(BlueprintReadWrite)
 	int32 NumAreas;
 
 	/** @brief The version of the Python library being used by the external trainer. */
-	UPROPERTY(BlueprintReadWrite)
 	FString PythonLibraryVersion;
 
 	/** @brief The version of the communication protocol used by Python. */
-	UPROPERTY(BlueprintReadWrite)
 	FString PythonCommunicationVersion;
 
 	/** @brief The capabilities of the trainer (external process). */
-	UPROPERTY(BlueprintReadWrite)
 	FString TrainerCapabilities;
 };
 
@@ -89,7 +79,6 @@ struct FUnrealRLInputParameters
 	GENERATED_BODY()
 
 	/** @brief Boolean flag indicating if training is enabled. */
-	UPROPERTY(BlueprintReadWrite)
 	bool bIsTraining;
 };
 
