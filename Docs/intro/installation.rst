@@ -17,7 +17,7 @@ Prerequisites
 
 2. **Python**:
 
-   - Install Python 3.10 (64-bit) to avoid compatibility issues.
+   - Install Python >= 3.10.11 (64-bit) to avoid compatibility issues.
    - Download Python from the official website: `Python Download <https://www.python.org/downloads/>`_.
 
 3. **PyTorch**:
@@ -65,7 +65,7 @@ from PyPI:
 
    Installing the `ue-agents` Python package involves installing other dependencies it relies on. To avoid issues
    with conflicting versions, consider using a virtual environment. For detailed steps, refer to the
-   :doc:`Virtual Environment Guide <intro/python-environment>`.
+   :doc:`Virtual Environment Guide </intro/python-environment>`.
 
 Advanced Installation: Cloning the Repository
 ---------------------------------------------
@@ -95,11 +95,13 @@ For developers who want to modify or extend the plugin and its Python packages, 
    when you run `ue-agents-learn`. It is important to install these packages in this order as the `ue-agents` package
    depends on `ue-agents-envs`, and installing it in the other order will download `ue-agents-envs` from PyPI.
 
+.. _next-steps-installation:
+
 Next Steps
 ----------
 
 With the plugin and Python packages installed, you can start building and training intelligent agents in your Unreal
-projects. Check out the :doc:`Getting Started <getting_started>` guide for detailed tutorials and examples.
+projects. Check out the :doc:`Getting Started </intro/getting-started>` guide for detailed tutorials and examples.
 
 Help
 ----

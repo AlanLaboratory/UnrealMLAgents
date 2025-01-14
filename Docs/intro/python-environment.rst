@@ -1,8 +1,4 @@
-==================
-Python environment
-==================
-
-Virtual environment
+irtual environment
 ===================
 
 Python programs often use packages and modules that are not part of the standard

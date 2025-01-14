@@ -7,7 +7,7 @@ UnrealMLAgents documentation
 ============================
 
 Introduction
-============
+------------
 
 This project is my humble adaptation of the exceptional `Unity ML-Agents Toolkit <https://github.com/Unity-Technologies/ml-agents>`_,
 which has set a high standard for game-based machine learning. My goal with this plugin is to bring all the incredible
