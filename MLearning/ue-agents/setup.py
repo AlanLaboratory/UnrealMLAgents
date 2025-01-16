@@ -41,9 +41,9 @@ setup(
     description="Unreal Machine Learning Agents based on Unity ML Agents",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/AlanLaboratory/unreal-ml-agents",
+    url="https://github.com/AlanLaboratory/UnrealMLAgents",
     author="Unity Technologies",
-    author_email="ML-Agents@unity3d.com",
+    author_email="devos.alanlaboratory@gmail.com",
     classifiers=[
         "Intended Audience :: Developers",
         "Topic :: Scientific/Engineering :: Artificial Intelligence",
@@ -56,6 +56,10 @@ setup(
     install_requires=[
         "h5py>=2.9.0",
         "tensorboard>=2.14",
+        "torch==2.4.1+cu124",
+        "torchaudio==2.4.1+cu124",
+        "torchvision==0.19.1+cu124",
+        "ueagents_envs==1.0.0",
         # adding six explicit dependency since tensorboard needs it but doesn't declare it as a dep
         "six>=1.16",
         # cattrs 1.1.0 dropped support for python 3.6, but 1.0.0 doesn't work for python 3.9
@@ -69,10 +73,10 @@ setup(
     python_requires=">=3.10.1,<=3.10.12",
     entry_points={
         "console_scripts": [
-            "ueagents-learn=ueagents.trainers.learn:main",
-            "ueagents-run-experiment=ueagents.trainers.run_experiment:main",
-            "ueagents-push-to-hf=ueagents.utils.push_to_hf:main",
-            "ueagents-load-from-hf=ueagents.utils.load_from_hf:main",
+            "ue-agents-learn=ueagents.trainers.learn:main",
+            "ue-agents-run-experiment=ueagents.trainers.run_experiment:main",
+            "ue-agents-push-to-hf=ueagents.utils.push_to_hf:main",
+            "ue-agents-load-from-hf=ueagents.utils.load_from_hf:main",
         ],
         # Plugins - each plugin type should have an entry here for the default behavior
         ML_AGENTS_STATS_WRITER: [

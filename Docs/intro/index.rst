@@ -9,7 +9,7 @@ developers with advanced machine learning capabilities for creating intelligent 
 Contents:
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
    getting-started
    installation
