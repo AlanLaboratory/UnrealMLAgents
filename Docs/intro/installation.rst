@@ -27,7 +27,7 @@ Prerequisites
 
      .. code-block:: bash
 
-        pip install torch~=2.2.1 --index-url https://download.pytorch.org/whl/cu121
+        pip install torch~=2.4.1 --index-url https://download.pytorch.org/whl/cu124
 
    .. note::
 

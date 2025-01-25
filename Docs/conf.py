@@ -29,7 +29,8 @@ extensions = [
     "sphinx.ext.intersphinx",
     "sphinx.ext.viewcode",
     "sphinx.ext.autodoc",
-    "breathe"
+    "breathe",
+    "sphinx_design"
 ]
 
 # Add any paths that contain templates here, relative to this directory.

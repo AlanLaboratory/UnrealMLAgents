@@ -395,6 +395,23 @@ int32 UAgent::GetDiscreteActions(const FActionBuffers& Actions, int32 Index)
 	return Actions.DiscreteActions[Index];
 }
 
+float UAgent::GetContinuousActions(const FActionBuffers& Actions, int32 Index)
+{
+    return Actions.ContinuousActions[Index];
+}
+
+void UAgent::SetContinuousAction(UPARAM(ref) FActionBuffers& Actions, int32 Index, float Value)
+{
+	FActionSegment<float>& ContinousActionsOut = Actions.ContinuousActions;
+	ContinousActionsOut[Index] = Value;
+}
+
+void UAgent::SetDiscreteAction(UPARAM(ref) FActionBuffers& Actions, int32 Index, int32 Value)
+{
+	FActionSegment<int32>& DiscreteActionsOut = Actions.DiscreteActions;
+	DiscreteActionsOut[Index] = Value;
+}
+
 template <typename T> void UAgent::GetAllChildComponents(TArray<T*>& OutChildComponents)
 {
 	// Ensure the output array is empty
@@ -419,7 +436,7 @@ template <typename T> void UAgent::GetAllChildComponents(TArray<T*>& OutChildCom
 	}
 }
 
-void UAgent::Heuristic(FActionBuffers& ActionsOut) {}
+void UAgent::Heuristic_Implementation(const FActionBuffers& ActionsOut) {}
 void UAgent::CollectObservations_Implementation(UVectorSensor* Sensor) {}
 void UAgent::Initialize_Implementation() {}
 void UAgent::OnEpisodeBegin_Implementation() {}

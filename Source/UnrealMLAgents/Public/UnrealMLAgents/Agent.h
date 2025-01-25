@@ -157,6 +157,33 @@ public:
 	int32 GetDiscreteActions(const FActionBuffers& Actions, int32 Index);
 
 	/**
+	 * @brief Reads the continuous actions from the provided action buffer at a specified index.
+	 * @param Actions The action buffer containing the agent's actions.
+	 * @param Index The index from which to retrieve the continuous actions.
+	 * @return The continuous action at the given index.
+	 */
+	UFUNCTION(BlueprintCallable, Category = "AgentObservation")
+	float GetContinuousActions(const FActionBuffers& Actions, int32 Index);
+
+	/**
+	 * @brief Sets the continuous action in the provided action buffer at a specified index.
+	 * @param Actions The action buffer where the agent's action will be set (passed by reference).
+	 * @param Index The index at which to set the continuous action.
+	 * @param Value The value to set at the specified index.
+	 */
+	UFUNCTION(BlueprintCallable, Category = "AgentAction")
+	void SetContinuousAction(UPARAM(ref) FActionBuffers& Actions, int32 Index, float Value);
+
+	/**
+	 * @brief Sets the discrete action in the provided action buffer at a specified index.
+	 * @param Actions The action buffer where the agent's action will be set (passed by reference).
+	 * @param Index The index at which to set the discrete action.
+	 * @param Value The value to set at the specified index.
+	 */
+	UFUNCTION(BlueprintCallable, Category = "AgentAction")
+	void SetDiscreteAction(UPARAM(ref) FActionBuffers& Actions, int32 Index, int32 Value);
+
+	/**
 	 * @brief Called at the beginning of an episode to reset the agent's state.
 	 */
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "AgentInit")
@@ -167,7 +194,8 @@ public:
 	 * This function allows for manual or custom control of the agent's actions.
 	 * @param ActionsOut The action buffers that will store the agent's actions.
 	 */
-	virtual void Heuristic(FActionBuffers& ActionsOut) override;
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "AgentAction")
+	void Heuristic(const FActionBuffers& ActionsOut) override;
 
 	/// The maximum number of steps the agent can take in a single episode before it is automatically terminated.
 	UPROPERTY()

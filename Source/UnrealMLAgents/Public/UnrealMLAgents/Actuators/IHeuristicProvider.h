@@ -42,5 +42,5 @@ public:
 	 *
 	 * @param ActionBuffersOut The `FActionBuffers` data structure to be filled with heuristic-based actions.
 	 */
-	virtual void Heuristic(FActionBuffers& ActionBuffersOut) = 0;
+	virtual void Heuristic(const FActionBuffers& ActionBuffersOut) = 0;
 };

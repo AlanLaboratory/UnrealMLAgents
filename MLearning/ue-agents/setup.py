@@ -56,9 +56,7 @@ setup(
     install_requires=[
         "h5py>=2.9.0",
         "tensorboard>=2.14",
-        "torch==2.4.1+cu124",
-        "torchaudio==2.4.1+cu124",
-        "torchvision==0.19.1+cu124",
+        "torch==2.4.1",
         "ueagents_envs==1.0.0",
         # adding six explicit dependency since tensorboard needs it but doesn't declare it as a dep
         "six>=1.16",

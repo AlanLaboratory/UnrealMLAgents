@@ -1,12 +1,9 @@
-import os
-import sys
 from setuptools import setup, find_packages
-from setuptools.command.install import install
-import mlagents_envs
+import ueagents_envs
 from pathlib import Path
 
-VERSION = mlagents_envs.__version__
-EXPECTED_TAG = mlagents_envs.__release_tag__
+VERSION = ueagents_envs.__version__
+EXPECTED_TAG = ueagents_envs.__release_tag__
 
 BASE_DIR = Path(__file__).resolve().parent
 
@@ -16,7 +13,7 @@ with BASE_DIR.joinpath("README.md").open(encoding="utf-8") as f:
     long_description = f.read()
 
 setup(
-    name="mlagents_envs",
+    name="ueagents_envs",
     version=VERSION,
     description="Unreal Machine Learning Agents Interface based on Unity ML Agents",
     long_description=long_description,
