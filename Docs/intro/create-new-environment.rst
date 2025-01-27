@@ -80,7 +80,7 @@ Add the Agent Sphere
 
 Instead of adding a basic sphere actor, create a Blueprint class for the agent.
 
-1. Right-click in the **Content Browser** and select **Blueprint Class -> Actor**.
+1. Right-click in the **Content Browser** and select **Blueprint Class -> Pawn**.
 2. Name the Blueprint "BP_RollerBall”.
 3. Open the Blueprint Editor for BP_RollerBall and add the following components:
    - **Sphere Component**: Represents the agent visually. Set its physics properties:
@@ -95,6 +95,11 @@ Instead of adding a basic sphere actor, create a Blueprint class for the agent.
 
 .. image:: _images/agent_transform.png
    :alt: BP_RollerBall transform
+
+.. note::
+
+   While we could have created the BP_RollerBall in C++, we chose to create it in Blueprint for simplicity.
+   You will see that in Unreal, it's not just Blueprint or C++, but a mix of both that makes development efficient.
 
 Add the camera
 ~~~~~~~~~~~~~~
@@ -143,12 +148,13 @@ Create the Agent Component
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 In this section, we will create the Agent Component and attach it to our BP_RollerBall. This component will handle
-all the agent’s interactions with the environment. By design, the Agent is implemented as a Component to allow
-attachment to both Actors and Characters, enabling flexibility.
+all the agent's interactions with the environment. By design, the Agent is implemented as a Component to allow
+attachment to both Pawns and Characters, enabling flexibility.
 
 .. tab-set::
 
    .. tab-item:: Blueprint
+      :sync: blueprint
 
       1. Right-click in the **Content Browser** and select **Blueprint Class -> Actor Component**.
       2. In the search bar, type "Agent" and select it.
@@ -158,8 +164,23 @@ attachment to both Actors and Characters, enabling flexibility.
          :alt: Create Blueprint Agent Component
 
    .. tab-item:: C++
+      :sync: c++
 
-      C++ Content
+      1. In Tools (top menu), select **New c++ class**.
+      2. Select All Classes and search for Agent. It will be under ActorComponent.
+      3. Click Next, and name the new C++ class "RollerAgent".
+
+      .. image:: _images/create_agent_class_c++.png
+         :alt: Create C++ Agent Component
+
+      This will create a new C++ class named RollerAgent.
+      If you want this class to be available in the editor, you will need to add the UCLASS() macro to the class definition.
+
+      .. code-block:: cpp
+         :caption: RollerAgent.h
+
+         UCLASS(Blueprintable, ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
+         class ROLLERBALL_API URollerAgent : public UAgent
 
 Add the Agent Component to BP_RollerBall:
 
@@ -203,6 +224,7 @@ Before we dig into the **OnEpisodeBegin** method, let's set up the references to
 .. tab-set::
 
    .. tab-item:: Blueprint
+      :sync: blueprint
 
       In Blueprint, you need to first create a RollerBallRef variable of type BP_RollerBall.
       To add a variable, in the variables section of the Agent Component, click on the +Variable button
@@ -212,23 +234,81 @@ Before we dig into the **OnEpisodeBegin** method, let's set up the references to
          :alt: Create references to target in Blueprint
 
    .. tab-item:: C++
+      :sync: c++
 
-      .. image:: _images/bp_roller_ball_reference_c++.png
-         :alt: Create reference to target in C++
+      In C++, we will only create a reference to the Sphere. You cannot directly create
+      a reference to a blueprint if it does not inherit from a C++ class. However, we can
+      direcly access to the owner of the static mesh component **Sphere**.
+      We will also save the initial position of the Sphere to be able to calculate the relative position of the target.
+
+      .. code-block:: cpp
+         :caption: RollerAgent.h
+
+         private:
+
+            UPROPERTY()
+            USphereComponent* Sphere = nullptr;
+
+            // Save Initial position of the Sphere
+            FVector StartPosition;
+
+      .. code-block:: cpp
+         :caption: RollerAgent.cpp
+
+         void URollerAgent::BeginPlay()
+         {
+            Super::BeginPlay();
+
+            // Get the owning actor
+            AActor* OwnerActor = GetOwner();
+            UActorComponent* RootComponent =  OwnerActor->GetComponentByClass(UStaticMeshComponent::StaticClass());
+            Sphere = Cast<UStaticMeshComponent>(RootComponent);
+            StartPosition = Sphere->GetComponentLocation();
+         }
 
 Implementing the **OnEpisodeBegin** method in the Agent Component:
 
 .. tab-set::
 
    .. tab-item:: Blueprint
+      :sync: blueprint
 
       .. image:: _images/event_on_episode_begin_blueprint.png
          :alt: On episode begin in Blueprint
 
    .. tab-item:: C++
+      :sync: c++
 
-      .. image:: _images/event_on_episode_begin_c++.png
-         :alt: On episode begin in C++
+      .. code-block:: cpp
+         :caption: RollerAgent.h
+
+         public:
+
+            // Override OnEpisodeBegin c++ method.
+            void OnEpisodeBegin_Implementation() override;
+
+            // The Cube target reference. UPROERTY() here to pass the reference in  the editor.
+            UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Agent")
+            AActor* Target;
+
+      .. code-block:: cpp
+         :caption: RollerAgent.cpp
+
+         void URollerAgent::OnEpisodeBegin_Implementation() {
+
+            // If the Agent fell, zero its momentum
+            if (Sphere->GetComponentLocation().Z < 250) {
+               Sphere->SetPhysicsLinearVelocity(FVector::ZeroVector);
+               Sphere->SetPhysicsAngularVelocityInDegrees(FVector::ZeroVector);
+               Sphere->SetWorldLocation(FVector(0.0f, 0.0f, 250.5f), false, nullptr, ETeleportType::ResetPhysics);
+            }
+
+            // Make the spawn of the target to a random spot relative to the sphere start position
+            FVector RandomLocation = FVector(FMath::RandRange(-300, 300), FMath::RandRange(-300, 300), 250);
+            RandomLocation.X += StartPosition.X;
+            RandomLocation.Y += StartPosition.Y;
+            Target->SetActorLocation(RandomLocation, false, nullptr, ETeleportType::ResetPhysics);
+         }
 
 You might wonder why we add the RollerBall's start position to the Cube's position.
 This ensures that the Cube spawns relative to the Sphere's position, regardless of where it is in the world.
@@ -257,6 +337,7 @@ and understand its spatial relationship within the environment.
 .. tab-set::
 
    .. tab-item:: Blueprint
+      :sync: blueprint
 
       To facilitate the implementation in Blueprint and to make it clearer, we will need to create two functions:
          - **GetTargetRelativePosition**: Calculates the relative position between the target and the sphere's start position.
@@ -286,9 +367,57 @@ and understand its spatial relationship within the environment.
          :alt: Collect observations in Blueprint
 
    .. tab-item:: C++
+      :sync: c++
 
-      .. image:: _images/collect_observation_c++.png
-         :alt: Collect observations in C++
+      To facilitate the CollectObservations method, we will in addition to the CollectObservation(), create two methods:
+         - **GetTargetRelativePosition**: Calculates the relative position between the target and the sphere's start position.
+         - **GetRelativePositionToStart**: Calculates the relative position between the sphere and its start position.
+
+      .. code-block:: cpp
+         :caption: RollerAgent.h
+
+         public:
+
+            void CollectObservations_Implementation(UVectorSensor* Sensor) override;
+
+         private:
+
+            FVector GetTargetRelativePosition();
+            FVector GetRelativePositionToStart();
+
+      .. code-block:: cpp
+         :caption: RollerAgent.cpp
+
+         void URollerAgent::CollectObservations_Implementation(UVectorSensor* Sensor) {
+
+            // Position of the target and the Sphere
+            Sensor->AddVectorObservation(GetTargetRelativePosition());
+            Sensor->AddVectorObservation(GetRelativePositionToStart());
+
+            // Velocity of the sphere
+            FVector SphereVelocity = Sphere->GetPhysicsLinearVelocity();
+            Sensor->AddVector2DObservation(FVector2D(SphereVelocity.X, SphereVelocity.Y));
+
+            // Distance between the sphere and the target
+            Sensor->AddFloatObservation(GetTargetRelativePosition().Length());
+
+            // Distance between the sphere and its start position
+            Sensor->AddFloatObservation(GetRelativePositionToStart().Length());
+         }
+
+
+         FVector URollerAgent::GetTargetRelativePosition() {
+            return FVector(
+               Sphere->GetComponentLocation() - Target->GetActorLocation()
+            );
+         }
+
+         FVector URollerAgent::GetRelativePositionToStart() {
+            return FVector(
+               Sphere->GetComponentLocation() - StartPosition
+            );
+         }
+
 
 Taking Actions and Assigning Rewards
 ------------------------------------
@@ -346,6 +475,7 @@ With the action and reward logic outlined above, the final version of OnActionRe
 .. tab-set::
 
    .. tab-item:: Blueprint
+      :sync: blueprint
 
       For a matter of simplification we have add a function to apply the force to the sphere.
       This method is called ApplyForce and takes an integer as input to determine the direction of the force.
@@ -367,8 +497,47 @@ With the action and reward logic outlined above, the final version of OnActionRe
          :alt: On action received in Blueprint
 
    .. tab-item:: C++
+      :sync: c++
 
-      C++ Content
+      In addition to the ApplyForce method, we will also need to add a ForceMultiplier
+      variable to determine the force to apply to the sphere. The user is free to set this value
+      from the Inspector window.
+
+      .. code-block:: cpp
+         :caption: RollerAgent.h
+
+         public:
+
+            void OnActionReceived_Implementation (const FActionBuffers& Actions) override;
+
+            UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Agent | Movement")
+            float ForceMultiplier = 50.0f;
+
+      .. code-block:: cpp
+         :caption: RollerAgent.cpp
+
+         void URollerAgent::OnActionReceived_Implementation(const FActionBuffers& Actions) {
+            float DirectionX = 0;
+            float DirectionY = 0;
+
+            int32 Movement = Actions.DiscreteActions[0];
+            if (Movement == 1) { DirectionX = -1; }
+            if (Movement == 2) { DirectionX = 1; }
+            if (Movement == 3) { DirectionY = -1; }
+            if (Movement == 4) { DirectionY = 1; }
+
+            Sphere->AddForce(FVector(DirectionX, DirectionY, 0) * ForceMultiplier);
+
+            if (GetTargetRelativePosition().Length() < 125) {
+               SetReward(1);
+               EndEpisode();
+            }
+
+            if (Sphere->GetComponentLocation().Z < 250) {
+               SetReward(-0.1);
+               EndEpisode();
+            }
+         }
 
 .. note::
 
@@ -457,8 +626,13 @@ Then open the IMC_Default and set the following values:
    If you want to learn more about `enhanced input`, you should check the
    Unreal documentation: `Enhanced Input <https://dev.epicgames.com/documentation/en-us/unreal-engine/enhanced-input-in-unreal-engine>`_.
 
-Before we jump into the `heuristic()`` method, we need to set our Mapping Context.
+Before we jump into the `heuristic()` method, we need to set our Mapping Context.
 To do that, open the BP_RollerBall Blueprint and add the following nodes:
+
+.. note::
+
+   For C++ user, you only need to implement what is in the Controller Input section.
+   While this could also have been done in C++, in some cases, it is quicker to do it in Blueprint.
 
 .. image:: _images/set_mapping_context.png
    :alt: Set Input Mappping Context
@@ -472,6 +646,7 @@ Here are the steps to implement the heuristic method both in Blueprint and C++:
 .. tab-set::
 
    .. tab-item:: Blueprint
+      :sync: blueprint
 
       .. note::
 
@@ -481,9 +656,37 @@ Here are the steps to implement the heuristic method both in Blueprint and C++:
          :alt: Heuristic in Blueprint
 
    .. tab-item:: C++
+      :sync: c++
 
-      .. image:: _images/heuristic_c++.png
-         :alt: Heuristic in C++
+      While we could have susbcribed to the input axis in C++, we will do it in Blueprint.
+      For that you need to set two variables in the RollerAgent class to pass the value of the axis to the heuristic method.
+
+      .. code-block:: cpp
+         :caption: RollerAgent.h
+
+         public:
+
+            void Heuristic_Implementation(const FActionBuffers& ActionsOut) override;
+
+            UPROPERTY(BlueprintReadWrite, Category = "AgentInput")
+            float ControllerInputX;
+
+            UPROPERTY(BlueprintReadWrite, Category = "AgentInput")
+            float ControllerInputY;
+
+      .. code-block:: cpp
+         :caption: RollerAgent.cpp
+
+         void URollerAgent::Heuristic_Implementation(const FActionBuffers& ActionsOut) {
+            FActionSegment<int32> DiscreteActionsOut = ActionsOut.DiscreteActions;
+            DiscreteActionsOut[0] = ControllerInputX > 0 ? 1 : (ControllerInputX < 0 ? 2 : (ControllerInputY > 0 ? 3 : (ControllerInputY < 0 ? 4 : 0)));
+         }
+
+      We now need to pass the DirectionX and DirectionY values to the ControllerInputX and ControllerInputY variables.
+      To do that, in the BP_RollerBall Blueprint, add the following nodes:
+
+      .. image:: _images/ia_move_event.png
+         :alt: Enhanced Input Event IA_Move
 
 In order for the Agent to use the heuristic, you will need to set the **Behavior Type** to
 "Heuristic Only" in the **Behavior Parameters** of the BP_RollerAgent in the Outliner.

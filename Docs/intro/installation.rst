@@ -34,6 +34,17 @@ Prerequisites
       On Windows, you may also need Microsoft's Visual C++ Redistributable if you don't have it already. See the
       PyTorch installation guide for more installation options and versions.
 
+For those who wants to develop in C++, please follow the very good documentation from Unreal Engine.
+You need to install and configure one of the following IDEs:
+
+   - `Setting Up Visual Studio <https://dev.epicgames.com/documentation/en-us/unreal-engine/setting-up-visual-studio-development-environment-for-cplusplus-projects-in-unreal-engine>`_
+   - `Setting Up VS Code <https://dev.epicgames.com/documentation/en-us/unreal-engine/setting-up-visual-studio-code-for-unreal-engine>`_
+
+.. note::
+
+   In case you are interested by other aspects of Unreal Engine, you can find more information
+   in the `Development Setup <https://dev.epicgames.com/documentation/en-us/unreal-engine/setting-up-your-development-environment-for-cplusplus-in-unreal-engine>`
+
 Installing the Plugin from FAB
 ------------------------------
 

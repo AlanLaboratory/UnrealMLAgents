@@ -125,7 +125,7 @@ comment to discuss its potential modification or not.
 
    .. code-block:: console
 
-      $ pip install pre-commit
+      $ pip install pre-commit==4.1.0
       $ pre-commit install
       $ pre-commit install --hook-type commit-msg
 
@@ -133,6 +133,16 @@ comment to discuss its potential modification or not.
 
    https://pre-commit.com/ is a framework for managing and maintaining multi-language
    pre-commit hooks to ensure code-style and code formatting is consistent.
+
+#. Build the plugin in case you made a change to the C++ code:
+
+   .. code-block:: console
+
+      $ cd C:\Program Files\Epic Games\UE_5.2\Engine\Build\Batchfiles
+      $ RunUAT.bat BuildPlugin -plugin="<path to this repo>\UnrealMLAgents.uplugin" -package="<somewhere>" -TargetPlatforms=Win64
+
+   You need to build successfully before you can push your changes.
+   Full `Building Plugins <https://dev.epicgames.com/community/learning/tutorials/qz93/unreal-engine-building-plugins>`_ documentation.
 
 #. Create a new changelog entry in `changelog` directory. The file should be named
    <issueid>.<type>.rst, where issueid is the number of the issue related to

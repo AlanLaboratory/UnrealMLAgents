@@ -42,8 +42,8 @@ TRAINING_STATUS_FILE_NAME = "training_status.json"
 
 def get_version_string() -> str:
     return f""" Version information:
-  ml-agents: {ueagents.trainers.__version__},
-  ml-agents-envs: {ueagents_envs.__version__},
+  ue-agents: {ueagents.trainers.__version__},
+  ue-agents-envs: {ueagents_envs.__version__},
   Communicator API: {UnrealEnvironment.API_VERSION},
   PyTorch: {torch_utils.torch.__version__}"""
 
@@ -208,22 +208,19 @@ def create_environment_factory(
 def run_cli(options: RunOptions) -> None:
     try:
         print(
-            """
-            ┐  ╖
-        ╓╖╬│╡  ││╬╖╖
-    ╓╖╬│││││┘  ╬│││││╬╖
- ╖╬│││││╬╜        ╙╬│││││╖╖                               ╗╗╗
- ╬╬╬╬╖││╦╖        ╖╬││╗╣╣╣╬      ╟╣╣╬    ╟╣╣╣             ╜╜╜  ╟╣╣
- ╬╬╬╬╬╬╬╬╖│╬╖╖╓╬╪│╓╣╣╣╣╣╣╣╬      ╟╣╣╬    ╟╣╣╣ ╒╣╣╖╗╣╣╣╗   ╣╣╣ ╣╣╣╣╣╣ ╟╣╣╖   ╣╣╣
- ╬╬╬╬┐  ╙╬╬╬╬│╓╣╣╣╝╜  ╫╣╣╣╬      ╟╣╣╬    ╟╣╣╣ ╟╣╣╣╙ ╙╣╣╣  ╣╣╣ ╙╟╣╣╜╙  ╫╣╣  ╟╣╣
- ╬╬╬╬┐     ╙╬╬╣╣      ╫╣╣╣╬      ╟╣╣╬    ╟╣╣╣ ╟╣╣╬   ╣╣╣  ╣╣╣  ╟╣╣     ╣╣╣┌╣╣╜
- ╬╬╬╜       ╬╬╣╣      ╙╝╣╣╬      ╙╣╣╣╗╖╓╗╣╣╣╜ ╟╣╣╬   ╣╣╣  ╣╣╣  ╟╣╣╦╓    ╣╣╣╣╣
- ╙   ╓╦╖    ╬╬╣╣   ╓╗╗╖            ╙╝╣╣╣╣╝╜   ╘╝╝╜   ╝╝╝  ╝╝╝   ╙╣╣╣    ╟╣╣╣
-   ╩╬╬╬╬╬╬╦╦╬╬╣╣╗╣╣╣╣╣╣╣╝                                             ╫╣╣╣╣
-      ╙╬╬╬╬╬╬╬╣╣╣╣╣╣╝╜
-          ╙╬╬╬╣╣╣╜
-             ╙
-        """
+            r"""
+ _    _                            _   __  __  _                                      _
+| |  | |                          | | |  \/  || |          /\                        | |
+| |  | | _ __   _ __   ___   __ _ | | | \  / || |         /  \     __ _   ___  _ __  | |_  ___
+| |  | || '_ \ | '__| / _ \ / _` || | | |\/| || |        / /\ \   / _` | / _ \| '_ \ | __|/ __|
+| |__| || | | || |   |  __/| (_| || | | |  | || |____   / ____ \ | (_| ||  __/| | | || |_ \__ \
+ \____/ |_| |_||_|    \___| \__,_||_| |_|  |_||______| /_/    \_\ \__, | \___||_| |_| \__||___/
+                                                                   __/ |
+                                                                  |___/
+
+                    UnrealMLAgents - Built for Unreal Engine ML agents
+    Inspired by the Unity ML-Agents Toolkit, extending its concepts for Unreal environments.
+"""
         )
     except Exception:
         print("\n\n\tUnity Technologies\n")
@@ -254,7 +251,7 @@ def run_cli(options: RunOptions) -> None:
     num_areas = options.env_settings.num_areas
 
     # Add some timer metadata
-    add_timer_metadata("mlagents_version", ueagents.trainers.__version__)
+    add_timer_metadata("ueagents_version", ueagents.trainers.__version__)
     add_timer_metadata("ueagents_envs_version", ueagents_envs.__version__)
     add_timer_metadata("communication_protocol_version", UnrealEnvironment.API_VERSION)
     add_timer_metadata("pytorch_version", torch_utils.torch.__version__)

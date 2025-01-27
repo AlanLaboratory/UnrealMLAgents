@@ -14,6 +14,7 @@ from ueagents.trainers.torch_entities.agent_action import AgentAction
 from ueagents.trainers.torch_entities.action_flattener import ActionFlattener
 from ueagents.trainers.torch_entities.networks import NetworkBody
 from ueagents.trainers.torch_entities.layers import linear_layer, Initialization
+from ueagents.trainers.demo_loader import demo_to_buffer
 from ueagents.trainers.trajectory import ObsUtil
 
 logger = logging_util.get_logger(__name__)

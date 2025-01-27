@@ -1,31 +1,33 @@
-# Unity ML-Agents Trainers
+# Unreal ML-Agents Trainers
 
-The `mlagents` Python package is part of the
-[ML-Agents Toolkit](https://github.com/Unity-Technologies/ml-agents). `mlagents`
+The `ueagents` Python package is part of the Unreal ML-Agents Toolkit. `ueagents`
 provides a set of reinforcement and imitation learning algorithms designed to be
-used with Unity environments. The algorithms interface with the Python API
-provided by the `mlagents_envs` package. See [here](../docs/Python-LLAPI.md) for
-more information on `mlagents_envs`.
+used with Unreal Engine environments. The algorithms interface with the Python API
+provided by the `ueagents_envs` package.
 
-The algorithms can be accessed using the: `mlagents-learn` access point. See
-[here](../docs/Training-ML-Agents.md) for more information on using this
-package.
+## Notice
+
+This package is inspired by Unity's ML-Agents Toolkit. The primary differences are:
+- `ueagents` has been updated to import from `ueagents_envs` instead of `mlagents_envs`.
+- Changes were made to support Unreal Engine, with references to Unity replaced with Unreal.
+- SideChannels are not supported yet, and the code has been adjusted accordingly.
+
+All credit for the foundational work goes to Unity's ML-Agents Toolkit team.
 
 ## Installation
 
-Install the `mlagents` package with:
+Install the `ueagents` package with:
 
 ```sh
-python -m pip install mlagents==1.0.0
+python -m pip install ueagents
 ```
 
 ## Usage & More Information
 
-For more information on the ML-Agents Toolkit and how to instrument a Unity
-scene with the ML-Agents SDK, check out the main
-[ML-Agents Toolkit documentation](../docs/Readme.md).
+For more information on the Unreal ML-Agents Toolkit and how to instrument an Unreal
+scene with the Unreal ML-Agents SDK, check out the main
+[Unreal ML-Agents Toolkit documentation](https://unrealmlagents.readthedocs.io/en/latest/).
 
-## Limitations
+## Credit
 
-- Resuming self-play from a checkpoint resets the reported ELO to the default
-  value.
+[Unity ML Agents](https://github.com/Unity-Technologies/ml-agents)

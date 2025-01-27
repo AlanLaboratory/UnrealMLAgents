@@ -2,14 +2,6 @@
 Examples
 ========
 
-.. toctree::
-   :maxdepth: 1
-
-   balance-a-ball
-
-Example Environments
-====================
-
 The Unreal ML Agents Toolkit currently includes one example environment, but many more will be added soon to highlight
 the various features of the toolkit. These environments can also serve as templates for new environments or as ways to
 test new ML algorithms. Environments are available on FAB under the name **UnrealMLAgentsExamples** and summarized

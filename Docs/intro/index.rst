@@ -16,4 +16,4 @@ Contents:
    python-environment
    training-ml-agents
    create-new-environment
-   examples/index
+   examples

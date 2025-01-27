@@ -1,4 +1,4 @@
-Unreal ML Agents Plugin Copyright © 2024 AlanLaboratory
+Copyright 2024 AlanLaboratory and individual contributors.
 
 This product includes software developed by Unity Technologies under the Apache License, Version 2.0. You may obtain
 a copy of the License at:

@@ -3,6 +3,7 @@ import numpy as np
 from ueagents.torch_utils import torch
 
 from ueagents.trainers.policy.torch_policy import TorchPolicy
+from ueagents.trainers.demo_loader import demo_to_buffer
 from ueagents.trainers.settings import BehavioralCloningSettings, ScheduleType
 from ueagents.trainers.torch_entities.agent_action import AgentAction
 from ueagents.trainers.torch_entities.action_log_probs import ActionLogProbs

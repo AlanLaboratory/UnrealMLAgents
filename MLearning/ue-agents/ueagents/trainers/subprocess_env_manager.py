@@ -12,7 +12,7 @@ from ueagents_envs.exception import (
     UnrealCommunicatorStoppedException,
 )
 from multiprocessing import Process, Pipe, Queue
-from multiprocessing.connection import Connection
+from multiprocessing.connection import Connection, PipeConnection
 from queue import Empty as EmptyQueueException
 from ueagents_envs.base_env import BaseEnv, BehaviorName, BehaviorSpec
 from ueagents_envs import logging_util
@@ -73,7 +73,7 @@ class StepResponse(NamedTuple):
 
 
 class UnityEnvWorker:
-    def __init__(self, process: Process, worker_id: int, conn: Connection):
+    def __init__(self, process: Process, worker_id: int, conn: PipeConnection):
         self.process = process
         self.worker_id = worker_id
         self.conn = conn
