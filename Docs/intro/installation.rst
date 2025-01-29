@@ -68,13 +68,13 @@ from PyPI:
 
    .. code-block:: bash
 
-      pip install ue-agents
+      pip install ueagents
 
-   This will automatically install `ue-agents-envs` as a dependency.
+   This will automatically install `ueagents_envs` as a dependency.
 
 .. note::
 
-   Installing the `ue-agents` Python package involves installing other dependencies it relies on. To avoid issues
+   Installing the `ueagents` Python package involves installing other dependencies it relies on. To avoid issues
    with conflicting versions, consider using a virtual environment. For detailed steps, refer to the
    :doc:`Virtual Environment Guide </intro/python-environment>`.
 
@@ -89,8 +89,10 @@ For developers who want to modify or extend the plugin and its Python packages, 
 
       git clone https://github.com/YourGitHub/UnrealMLAgents.git
 
-2. Navigate to the `MLearning` directory within the repository.
-3. Install the Python packages in editable mode using the `-e` flag:
+2. Download the pre-built third-party binary libraries from `here <https://github.com/AlanLaboratory/UnrealMLAgents/releases/tag/0.1.0>`.
+3. Extract the downloaded libraries to the `Source/ThirdParty` directory.
+4. Navigate to the `MLearning` directory within the repository.
+5. Install the Python packages in editable mode using the `-e` flag:
 
    .. code-block:: bash
 

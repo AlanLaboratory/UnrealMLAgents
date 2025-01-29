@@ -1,89 +1,98 @@
 # Unreal ML Agents Plugin
 
-This project is inspired by and built upon the [Unity ML-Agents Toolkit](https://github.com/Unity-Technologies/ml-agents).
-The primary goal is to bring all of the incredible work from Unity's ML-Agents to Unreal Engine. The Unity implementation
-is known for its great documentation and solid design. I wanted to adapt this to Unreal Engine to give Unreal developers
-access to these amazing features.
+The **Unreal ML Agents Plugin** is inspired by and built upon the [Unity ML-Agents Toolkit](https://github.com/Unity-Technologies/ml-agents).
+The primary goal of this project is to bring Unity's powerful reinforcement learning framework to **Unreal Engine**, allowing developers
+to train intelligent agents using state-of-the-art machine learning algorithms.
 
-It's worth noting that Unreal Engine has its own plugin for machine learning called
-[Unreal Learning Agents](https://dev.epicgames.com/community/learning/courses/kRm/unreal-engine-learning-agents-5-4/4JPj/unreal-engine-learning-agents-intro-5-4).
-While the Unreal Learning Agents is a promising project, at this stage, I believe the Unity implementation is still
-superior in terms of features and ease of use. However, Unreal Learning Agents could be a good alternative to this plugin,
-and I encourage developers to explore it as well.
+## Unreal Engine and Machine Learning
 
-## Installation
+Unreal Engine also has its own plugin for machine learning, called [Unreal Learning Agents](https://dev.epicgames.com/community/learning/courses/GAR/unreal-engine-learning-agents-5-5/bZnJ/unreal-engine-learning-agents-5-5).
 
-To install the Plugin:
-
-1. Clone this repository into your Unreal Engine project's `Plugins` folder.
-2. Download the pre-built third-party binary libraries from [here](https://github.com/AlanLaboratory/UnrealMLAgents/releases/tag/0.1.0).
-3. Extract the downloaded libraries to the `Source/ThirdParty` directory in your project.
-
-## Overview
-
-The **UnrealMLAgents Plugin** is inspired by the [Unity Machine Learning Agents Toolkit](https://github.com/Unity-Technologies/ml-agents),
-which enables games and simulations to serve as environments for training intelligent agents. This plugin aims to bring
-those same capabilities to Unreal Engine.
-
-Like Unity ML-Agents, this plugin provides integrations for training intelligent agents in 3D, VR/AR, and other Unreal
-Engine environments. The UnrealMLAgents Plugin allows game developers, hobbyists, and researchers to train agents
-using state-of-the-art algorithms, including reinforcement learning and imitation learning.
-
-You can use trained agents for various purposes, such as controlling NPC behavior, automating game testing, and evaluating
-game design decisions.
-
-## Acknowledgements
-
-This project is based on the [Unity ML-Agents Toolkit](https://github.com/Unity-Technologies/ml-agents) and includes
-significant modifications to integrate its functionality into **Unreal Engine**. The original Unity ML-Agents code is
-licensed under the Apache License 2.0, and this plugin retains compatibility with that license.
-
-We are grateful to **Unity Technologies** for providing the foundation upon which this Unreal ML Agents Plugin
-is built. You can find the original Unity ML-Agents code and license information in the `LICENSE.unity` file.
-
-### Modifications
-
-- The original Unity ML-Agents code has been adapted from **C#** to **C++** for use within Unreal Engine.
-- We have implemented custom **Protobuf definitions** to support integration with Python and Unreal, compatible with
-  Linux, Windows, and macOS.
-- Significant changes have been made to integrate Unreal's **Blueprint system**, making it easier for developers to
-  interact with the plugin without requiring in-depth C++ knowledge.
-- Other changes include modifications to the `mlagents_envs` Python package and adaptations for sensor systems.
-
-For more details on modifications and what has not yet been implemented, please refer to the `NOTICE` file.
-
-## Contributing
-
-Contributions are highly appreciated! There is still much work to be done, and contributions in the following areas would
-be especially valuable:
-
-- Implementing additional sensors, such as visual and positional sensors.
-- Expanding unit tests to better cover Unreal-specific features.
-- Creating more example environments and training scenarios.
-- Improving documentation and tutorial content.
-
-Please feel free to submit pull requests or open issues if you would like to contribute or report bugs.
+This project isn't here to compete with Unreal Learning Agents—it's meant to complement it.
+For those who find Unreal Learning Agents more suited to their needs, I wholeheartedly encourage you to
+explore its capabilities. Both plugins share the same vision: advancing AI in game engines and providing developer
+with innovative tools to build smarter, more dynamic systems. This plugin aims to bridge that gap by providing
+similar capabilities within Unreal Engine.
 
 Currently, we lack of build checks in PRs, so please try to validate the plugin builds correctly before submitting a PR.
 Check [here](#build-with-automation-tool) to build using command line tools provided by UE5.
 
 ## Documentation
 
-All code is well-documented, and much of the documentation was inspired by Unity ML-Agents. Most methods, classes, and
-modules have equivalent names and functionality to Unity's implementation. We are working on adding more examples and
-general documentation to make it easier for developers to get started.
+For full documentation, visit: [Unreal ML-Agents Documentation](https://unrealmlagents.readthedocs.io/en/latest/)
 
-For now, you can refer to Unity's excellent documentation here: [Unity ML-Agents Documentation](https://unity-technologies.github.io/ml-agents/ML-Agents-Overview/).
+If you are just getting started, we recommend that you read the documentation in this order:
 
-More detailed Unreal-specific documentation is in progress.
+1. Read the **Getting Started** section.
+2. Jump to the **Create New Environment** guide.
+3. Check out the **Examples** to see implementations in action.
 
-## Build with Automation Tool
+Check `Docs/README` for instructions on building an HTML version of the docs.
 
-UE Automation Tool can be used to build the plugin, currently used for build checks when making changes.
+We are actively working on Unreal-specific documentation, but for additional reference, Unity's ML-Agents Toolkit documentation
+remains a valuable resource.
 
-As an example on Windows, using `cmd`:
-```
-F:\UE_5.2\Engine\Build\BatchFiles\RunUAT.bat BuildPlugin -plugin="<path to this repo>\UnrealMLAgents.uplugin" -package="<somewhere>" -TargetPlatforms=Win64
-```
+## Overview
 
-[source](https://dev.epicgames.com/community/learning/tutorials/qz93/unreal-engine-building-plugins)
+The **Unreal ML Agents Plugin** is a framework that allows Unreal Engine developers to train machine learning-based agents.
+At this stage, inference is not yet implemented, and many sensors available in Unity ML-Agents have not been developed yet.
+Currently, we support only **base vector observations** for the agent and a **RaySensorComponent**.
+
+### ✅ **Current Features**
+- **Reinforcement Learning (RL) support**
+- **Basic vector observations**
+- **Ray sensor component for spatial awareness**
+- **Multi-Agent training**
+
+### 🚧 **Work in Progress**
+- **Inference is not implemented yet**
+- **Most sensor types from Unity ML-Agents are not yet available**
+- **Imitation learning is planned but not yet supported**
+
+This project mirrors the structure of Unity ML-Agents, ensuring a familiar workflow while adapting features to **Unreal Engine’s C++ and Blueprint systems**.
+
+## Differences from Unity ML-Agents
+
+This plugin is based on **Unity ML-Agents**, but several adaptations were required for Unreal Engine:
+
+### ✅ Core Modifications
+- **Converted from C# to C++** to fit Unreal Engine’s architecture.
+- **Integrated with Unreal Blueprints**, allowing developers to interact with the system without writing C++.
+- **Reworked `mlagents_envs` into `ueagents_envs`**, adjusting Python-side communication for Unreal.
+- **Reworked `mlagents` into `ueagents`**, adjusting Python-side for ueagents_envs.
+
+For more details on what has been modified, refer to the [`NOTICE`](NOTICE.md) file.
+
+## Contributing
+
+We welcome contributions! The contributing guidelines are available in `CONTRIBUTING.rst` at the root of the repository.
+You can also find them in the official documentation: [Contributing Guide](https://unrealmlagents.readthedocs.io/en/latest/).
+
+Areas where help is most needed:
+- Implementing additional **sensor types** (e.g., vision-based sensors).
+- Expanding **unit tests** for Unreal-specific features.
+- Developing more **example environments** and **training scenarios**.
+- Improving **documentation and tutorials**.
+
+If you’d like to contribute, feel free to **submit pull requests** or **open issues**.
+
+## YouTube Showcase
+
+To see what is possible with **Unreal ML Agents**, check out my YouTube channel:
+
+📺 **[Alan Laboratory - Unreal ML Agents](https://www.youtube.com/@AlanLaboratory)**
+
+There, you’ll find examples, demonstrations, and progress updates on what can be achieved using this plugin.
+Don't forget to Subscribe!
+
+## Support the Project
+
+When I was younger, I spent a lot of time creating 3D environments, but I never had a clear purpose for them. When AI became popular,
+it required an enormous amount of data to create something meaningful. However, seeing what people could do with Unity and my growing
+experience with Unreal made me realize that I could combine both of my passions—without needing external datasets. In reinforcement learning,
+we generate data as we interact with our own environments, which is an incredible concept.
+
+If you would like to support this project and help with further development, funding auto-building servers, or simply buy me a coffee,
+you can do so via **GitHub Sponsors**.
+
+👉 Click the ❤️ **Sponsors** button on GitHub or visit: **[GitHub Sponsors](https://github.com/sponsors/AlanLaboratory)**
