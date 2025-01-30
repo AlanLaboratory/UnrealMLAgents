@@ -127,7 +127,7 @@ Then navigate to `http://localhost:6006` in your browser to view the TensorBoard
 section, the most important statistic is `Environment/Cumulative Reward`, which should increase throughout training, eventually
 converging close to the optimal reward for the environment.
 
-.. image:: _images/tensorboard.png
+.. image:: _images/tensorboard_balance_a_ball.png
    :alt: TensorBoard result of BalanceABall
 
 Additional Resources
@@ -145,4 +145,4 @@ Next Steps
 ----------
 
 - Explore the next section: :doc:`Creating a New Environment </intro/create-new-environment>` to learn how to design your own custom learning scenarios.
-- Learn more about the :doc:`BalanceABall example </intro/examples/balance-a-ball>` to deepen your understanding of this specific environment and its training process.
+- Learn more about our :doc:`examples </intro/examples>` to deepen your understanding of specific environment and training process.

@@ -17,7 +17,7 @@ own environments, see the :doc:`Creating a New Environment </intro/create-new-en
 BalanceABall
 ------------
 
-.. image:: ../_images/balance_a_ball.png
+.. image:: _images/balance_a_ball.png
    :alt: Balance A Ball Example
 
 - **Set-up**: A balance task, where the agent (a sphere) balances a smaller ball on top.

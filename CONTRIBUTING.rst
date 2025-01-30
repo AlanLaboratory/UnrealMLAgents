@@ -86,12 +86,6 @@ From the ``Docs`` directory, build the HTML documentation:
 
 The documentation will be available in ``Docs/_build/html``.
 
-How the Documentation is Organized
------------------------------------
-
-* :doc:`Intro </intro/index>` - Steps for installation, understanding the plugin, and creating environments.
-* :doc:`Examples </intro/examples/index>` - Practical examples to guide you through the plugin's features.
-
 Contribute
 ==========
 
