@@ -33,6 +33,11 @@ If you haven't already, follow the :doc:`Installation <installation>` instructio
       plugin if it is not already installed. Alternatively, you can manually install the plugin as described in the
       installation guide.
 
+      1. Navigate to the `FAB Marketplace <https://www.fab.com/>`_ and search for `UnrealMLAgentsExamples`.
+      2. Click **Add to My Library**.
+      3. Open Epic Games Launcher and go to the **Unreal Engine -> Library** tab.
+      4. Refresh the Fab Library and then **Create Project**.
+
    .. tab-item:: GitHub
 
       Alternatively, you can clone the repository directly if you prefer:
@@ -51,6 +56,14 @@ If you haven't already, follow the :doc:`Installation <installation>` instructio
          In case you are using the GitHub repository, you will need to manually install the UnrealMLAgents plugin.
          Create a folder named `Plugins` in the root of the UnrealMLAgentsExamples project and copy
          the `UnrealMLAgents` folder that you have generated in the installation guide.
+
+.. important::
+
+   When you start the Unreal Engine project, you may see a message telling you that you are missing modules
+   or that they are not compiled with the same unreal engine version. If you see this message, click **Yes** to rebuild.
+
+.. image:: _images/missing_modules.png
+   :alt: Missing Modules
 
 Understanding the Environment
 -----------------------------
@@ -110,7 +123,11 @@ To train your own model using reinforcement learning:
 
 1. Open a command prompt or terminal.
 
-2. Navigate to the plugin's repository directory.
+2. Activate your virtual environment that you created during the installation process.
+
+3. If you cloned the UnrealMLAgents plugin repository, you will directly access to the learning configuration files.
+   If you installed the UnrealMLAgentsExamples from the FAB Marketplace, you will need to create a configuration
+   file based on the `BalanceABall.yaml <https://github.com/AlanLaboratory/UnrealMLAgents/blob/master/MLearning/configs/ppo/BalanceABall.yaml>`_ configuration file and point to it.
 
 3. Run the following command:
 
@@ -131,8 +148,8 @@ If `ue-mlagents-learn` runs correctly and starts training, you should see someth
 Observing Training Progress
 ---------------------------
 
-Once you start training using `ue-agents-learn` in the way described in the previous section, the `MLearning` directory will
-contain a `results` directory. To observe the training process in more detail, you can use TensorBoard. From the command line run:
+Once you start training using `ue-agents-learn` in the way described in the previous section, you will
+see a new `results` directory. To observe the training process in more detail, you can use TensorBoard. From the command line run:
 
 .. code-block:: bash
 

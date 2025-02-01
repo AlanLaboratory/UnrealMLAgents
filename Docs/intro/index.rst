@@ -13,7 +13,7 @@ Contents:
 
    getting-started
    installation
-   python-environment
    training-ml-agents
    create-new-environment
    examples
+   python-environment
