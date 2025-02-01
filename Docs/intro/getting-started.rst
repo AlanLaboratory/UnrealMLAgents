@@ -20,22 +20,37 @@ Installation
 
 If you haven't already, follow the :doc:`Installation <installation>` instructions.
 
-From the FAB Marketplace, you will need to install the **UnrealMLAgentsExamples Content**. This package includes the
-example environments required for this guide. Installing this content will automatically install the UnrealMLAgents
-plugin if it is not already installed. Alternatively, you can manually install the plugin as described in the
-installation guide.
+.. note::
 
-Alternatively, you can clone the repository directly if you prefer:
+   For those who wants to use the Plugin with GitHub, you will need to follow the advanced installation steps.
 
-1. Ensure the UnrealMLAgents plugin is installed from the FAB Marketplace before proceeding.
+.. tab-set::
 
-2. Open a command prompt or terminal and clone the repository:
+   .. tab-item:: FAB Marketplace
 
-   .. code-block:: bash
+      From the FAB Marketplace, you will need to install the **UnrealMLAgentsExamples Content**. This package includes the
+      example environments required for this guide. Installing this content will automatically install the UnrealMLAgents
+      plugin if it is not already installed. Alternatively, you can manually install the plugin as described in the
+      installation guide.
 
-      git clone git@github.com:AlanLaboratory/UnrealMLAgentsExamples.git
+   .. tab-item:: GitHub
 
-3. Navigate to the cloned repository and follow the included instructions to set up the example environments.
+      Alternatively, you can clone the repository directly if you prefer:
+
+      1. Ensure the UnrealMLAgents plugin is installed from the FAB Marketplace or the GitHub repository.
+      2. Open a command prompt or terminal and clone the repository:
+
+         .. code-block:: bash
+
+            git clone git@github.com:AlanLaboratory/UnrealMLAgentsExamples.git
+
+      3. Navigate to the cloned repository and Launch the Unreal Engine project.
+
+      .. note::
+
+         In case you are using the GitHub repository, you will need to manually install the UnrealMLAgents plugin.
+         Create a folder named `Plugins` in the root of the UnrealMLAgentsExamples project and copy
+         the `UnrealMLAgents` folder that you have generated in the installation guide.
 
 Understanding the Environment
 -----------------------------

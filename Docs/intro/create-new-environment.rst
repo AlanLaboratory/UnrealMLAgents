@@ -15,6 +15,11 @@ Before starting, ensure you have:
 1. Unreal Engine version 5.2 or higher installed.
 2. The UnrealMLAgents plugin set up and enabled. Follow the :doc:`Installation <installation>` guide if you haven't done this yet.
 
+.. important::
+
+   There are two install the plugin, either from the FAB Marketplace or by cloning the repository.
+   If you choose the second option, you will need to build the plugin from source.
+
 Overview
 --------
 

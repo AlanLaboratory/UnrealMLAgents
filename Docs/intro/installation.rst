@@ -45,6 +45,12 @@ You need to install and configure one of the following IDEs:
    In case you are interested by other aspects of Unreal Engine, you can find more information
    in the `Development Setup <https://dev.epicgames.com/documentation/en-us/unreal-engine/setting-up-your-development-environment-for-cplusplus-in-unreal-engine>`
 
+.. important::
+
+   You can either install the plugin from the FAB Marketplace or clone the repository to access the full source code.
+   If you choose the second option, you will need to build the plugin from source.
+   Instructions are in the `ref: advanced installation guide <advanced-installation>` section.
+
 Installing the Plugin from FAB
 ------------------------------
 
@@ -78,6 +84,8 @@ from PyPI:
    with conflicting versions, consider using a virtual environment. For detailed steps, refer to the
    :doc:`Virtual Environment Guide </intro/python-environment>`.
 
+.. _advanced-installation:
+
 Advanced Installation: Cloning the Repository
 ---------------------------------------------
 
@@ -107,6 +115,24 @@ For developers who want to modify or extend the plugin and its Python packages, 
    Running pip with the `-e` flag will let you make changes to the Python files directly and have those reflected
    when you run `ue-agents-learn`. It is important to install these packages in this order as the `ue-agents` package
    depends on `ue-agents-envs`, and installing it in the other order will download `ue-agents-envs` from PyPI.
+
+Build the Plugin from Source:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To build the plugin from source, follow these steps:
+
+   .. code-block:: console
+
+      $ cd C:/Program Files/Epic Games/UE_5.X/Engine/Build/Batchfiles
+      $ RunUAT.bat BuildPlugin -plugin="<path to this repo>\UnrealMLAgents.uplugin" -package="<somewhere/UnrealMLAgents>" -TargetPlatforms=Win64
+
+After building the plugin, you can copy the `UnrealMLAgents` folder to your Unreal Engine project's `Plugins` directory.
+
+   .. code-block:: console
+
+      $ cp -r UnrealMLAgents C:/Program Files/Epic Games/UE_5.2/Engine/Plugins/Plugins
+
+The plugin is now ready to use in your Unreal Engine projects.
 
 .. _next-steps-installation:
 
