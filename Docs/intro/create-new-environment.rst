@@ -27,7 +27,7 @@ Using UnrealMLAgents in your project involves these steps:
 
 1. **Create the Environment**: Design the level, including the floor, target, and agent actor. An environment can range
    from a simple physical simulation containing a few objects to an entire game or ecosystem.
-2. **Implement the Agent**: Define the agent’s behavior, including observations, actions, and rewards. The agent
+2. **Implement the Agent**: Define the agent's behavior, including observations, actions, and rewards. The agent
    interacts with the environment and learns based on rewards provided for specific actions.
 3. **Group and Organize**: Use an Actor or Blueprint to group the environment elements into a cohesive unit. In Unreal,
    we attach an Agent component to the Actor or Character we want to use as the learning agent. To learn more about
@@ -132,7 +132,7 @@ Set the view target to the camera we just created:
 
 .. note::
 
-   To create a reference to the Camera Actor. Select in the level the camera, go in the blueprint,
+   To create a reference to the Camera Actor. Select in the level the camera, go in the level blueprint,
    right-click, and select "Add reference to CameraActor".
 
 Group into Training Area
@@ -161,7 +161,7 @@ attachment to both Pawns and Characters, enabling flexibility.
    .. tab-item:: Blueprint
       :sync: blueprint
 
-      1. Right-click in the **Content Browser** and select **Blueprint Class -> Actor Component**.
+      1. Right-click in the **Content Browser** and select **Blueprint Class**.
       2. In the search bar, type "Agent" and select it.
       3. Name the new Blueprint Component "BPC_RollerAgent".
 
@@ -231,20 +231,39 @@ Before we dig into the **OnEpisodeBegin** method, let's set up the references to
    .. tab-item:: Blueprint
       :sync: blueprint
 
-      In Blueprint, you need to first create a RollerBallRef variable of type BP_RollerBall.
-      To add a variable, in the variables section of the Agent Component, click on the +Variable button
-      and set the variable type to BP_RollerBall. Then you can set the variable on the Event Begin Play:
+      In **Blueprint**, follow these steps to create and configure the necessary variables for the Agent Component:
 
-      .. image:: _images/bp_roller_ball_reference.png
+      1. **Create a Reference to BP_RollerBall**:
+         - In the **Variables** section of the Agent Component, click the **+ Variable** button.
+         - Set the variable type to `BP_RollerBall`.
+
+      2. **Store the Start Position of the Sphere**:
+         - Create a new variable of type `Vector`.
+         - This will be used to calculate the relative position of the target.
+
+      3. **Save the Reference of the Target Cube**:
+         - Create a new variable called `Target` of type `Actor`.
+         - Make it **public** by clicking the **Eye** icon next to it.
+
+      These variables will be essential for tracking the agent's state and interactions with the environment.
+      Then you can set these variable on the Event Begin Play:
+
+      .. image:: _images/bp_roller_ball_agent_begin_play.png
          :alt: Create references to target in Blueprint
 
    .. tab-item:: C++
       :sync: c++
 
-      In C++, we will only create a reference to the Sphere. You cannot directly create
-      a reference to a blueprint if it does not inherit from a C++ class. However, we can
-      direcly access to the owner of the static mesh component **Sphere**.
-      We will also save the initial position of the Sphere to be able to calculate the relative position of the target.
+      In **C++**, we will create a reference to the **Sphere** and store the necessary data to calculate its interactions with
+      the target. You cannot directly reference a Blueprint class unless it inherits from a C++ class. However, since our Sphere is part
+      of the owning Actor, we can access it through the **Static Mesh Component** of the agent's owner. This allows us to track
+      the agent's movement dynamically.
+
+      We also need to store the **initial position of the Sphere** in an `FVector` variable, ensuring we can later compute its
+      relative position to the target.
+
+      Lastly, we require a public `AActor*` reference to store the **Target Cube**, which will be assigned in the level editor.
+      This allows the agent to interact with the environment efficiently during execution.
 
       .. code-block:: cpp
          :caption: RollerAgent.h
@@ -253,6 +272,10 @@ Before we dig into the **OnEpisodeBegin** method, let's set up the references to
 
             UPROPERTY()
             USphereComponent* Sphere = nullptr;
+
+            // The Cube target reference. UPROERTY() here to pass the reference in  the editor.
+            UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Agent")
+            AActor* Target;
 
             // Save Initial position of the Sphere
             FVector StartPosition;
@@ -266,7 +289,7 @@ Before we dig into the **OnEpisodeBegin** method, let's set up the references to
 
             // Get the owning actor
             AActor* OwnerActor = GetOwner();
-            UActorComponent* RootComponent =  OwnerActor->GetComponentByClass(UStaticMeshComponent::StaticClass());
+            UActorComponent* RootComponent = OwnerActor->GetComponentByClass(UStaticMeshComponent::StaticClass());
             Sphere = Cast<UStaticMeshComponent>(RootComponent);
             StartPosition = Sphere->GetComponentLocation();
          }
@@ -291,10 +314,6 @@ Implementing the **OnEpisodeBegin** method in the Agent Component:
 
             // Override OnEpisodeBegin c++ method.
             void OnEpisodeBegin_Implementation() override;
-
-            // The Cube target reference. UPROERTY() here to pass the reference in  the editor.
-            UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Agent")
-            AActor* Target;
 
       .. code-block:: cpp
          :caption: RollerAgent.cpp
@@ -705,7 +724,7 @@ Training the Environment
 
 The process is the same as described in the :doc:`Getting Started Guide </intro/getting-started>`.
 
-1. Create a configuration file (e.g., `roller_sphere_config.yaml`) in your project’s config folder.
+1. Create a configuration file (e.g., `roller_sphere_config.yaml`) in your project's config folder.
 2. Include training parameters such as:
 
    .. code-block:: yaml
