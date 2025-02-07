@@ -77,6 +77,8 @@ Add the Target Cube
    - Rotation: `(0, 0, 0)`
    - Scale: `(1, 1, 1)`
 
+4. Set the mobility to **Movable** under Transform.
+
 .. image:: _images/target_transform.png
    :alt: Target cube transform
 
@@ -233,9 +235,9 @@ Before we dig into the **OnEpisodeBegin** method, let's set up the references to
 
       In **Blueprint**, follow these steps to create and configure the necessary variables for the Agent Component:
 
-      1. **Create a Reference to BP_RollerBall**:
+      1. **Create a Reference to BP_RollerBall Sphere**:
          - In the **Variables** section of the Agent Component, click the **+ Variable** button.
-         - Set the variable type to `BP_RollerBall`.
+         - Set the variable type to `Static Mesh Component`.
 
       2. **Store the Start Position of the Sphere**:
          - Create a new variable of type `Vector`.
@@ -378,7 +380,7 @@ and understand its spatial relationship within the environment.
 
       **GetRelativePositionToStart()**:
 
-         1. Open the **BP_RollerBall** Blueprint.
+         1. Open the **BPC_RollerAgent** Blueprint.
          2. Create a new function named "GetRelativePositionToStart".
          3. Add Return Node with output type `Vector` named "Position"
 
@@ -494,8 +496,6 @@ restart the episode.
 OnActionReceived()
 ~~~~~~~~~~~~~~~~~~
 
-With the action and reward logic outlined above, the final version of OnActionReceived() looks like:
-
 .. tab-set::
 
    .. tab-item:: Blueprint
@@ -510,6 +510,8 @@ With the action and reward logic outlined above, the final version of OnActionRe
       As you can see this method use a ForceMultiplier variable to determine the force to apply to the sphere.
       ForceMultiplier must be set as Public in the Blueprint to be able to set it from the Inspector window.
       To do that, on the right side of the variable, click on the eye icon to make it public.
+      We can also set a default value to that variable. Click on the variable and on the detail panel on the right,
+      set the default value to 100.
 
       PositionX and PositionY are two variables that store the position of the sphere in the X and Y axis.
       These variables are local to the method and will be reset each time we call the method.
@@ -744,7 +746,7 @@ The process is the same as described in the :doc:`Getting Started Guide </intro/
             beta_schedule: constant
             epsilon_schedule: linear
           network_settings:
-            normalize: false
+            normalize: true
             hidden_units: 128
             num_layers: 2
           reward_signals:
