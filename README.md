@@ -14,9 +14,6 @@ explore its capabilities. Both plugins share the same vision: advancing AI in ga
 with innovative tools to build smarter, more dynamic systems. This plugin aims to bridge that gap by providing
 similar capabilities within Unreal Engine.
 
-Currently, we lack of build checks in PRs, so please try to validate the plugin builds correctly before submitting a PR.
-Check [here](#build-with-automation-tool) to build using command line tools provided by UE5.
-
 ## Documentation
 
 For full documentation, visit: [Unreal ML-Agents Documentation](https://unrealmlagents.readthedocs.io/en/latest/)
