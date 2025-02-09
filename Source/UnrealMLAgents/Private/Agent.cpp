@@ -397,7 +397,7 @@ int32 UAgent::GetDiscreteActions(const FActionBuffers& Actions, int32 Index)
 
 float UAgent::GetContinuousActions(const FActionBuffers& Actions, int32 Index)
 {
-    return Actions.ContinuousActions[Index];
+	return Actions.ContinuousActions[Index];
 }
 
 void UAgent::SetContinuousAction(UPARAM(ref) FActionBuffers& Actions, int32 Index, float Value)
