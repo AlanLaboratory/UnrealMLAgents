@@ -270,14 +270,18 @@ Before we dig into the **OnEpisodeBegin** method, let's set up the references to
       .. code-block:: cpp
          :caption: RollerAgent.h
 
-         private:
+         public:
 
-            UPROPERTY()
-            USphereComponent* Sphere = nullptr;
+            virtual void BeginPlay() override;
 
             // The Cube target reference. UPROERTY() here to pass the reference in  the editor.
             UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Agent")
             AActor* Target;
+
+         private:
+
+            UPROPERTY()
+            UStaticMeshComponent* Sphere = nullptr;
 
             // Save Initial position of the Sphere
             FVector StartPosition;
@@ -578,10 +582,18 @@ This involves adding and configuring the necessary components for decision-makin
 
 1. Open the **BP_RollerBall** Blueprint.
 2. Add the **DecisionRequester Component**:
-   - Set the **Decision Period** to `10` to define how often decisions are requested from the agent.
+
+  - Set the **Decision Period** to `10` to define how often decisions are requested from the agent.
+
 3. Add the **BehaviorParameters Component**:
-   - Set **Vector Observation Space Size** to `10`. This includes all the observations collected by the agent.
-   - Set **Discrete Actions** with 1 branch and 5 actions corresponding to the agent's possible movements (`0` for no movement, `1-4` for movement in specific directions).
+
+  - Set the **Behavior Name** to "RollerBall"
+  - In **Brain Parameters**:
+
+    - Set **Vector Observation Space Size** to `10`. This includes all the observations collected by the agent.
+    - Set **Behavior Type** to Default. This will allow UnrealMLAgents to select automatically heuristic mode if no server are available.
+    - Set **Discrete Actions (Action Spec -> Branch Sizes)** with 1 branch and 5 actions corresponding to the agent's
+      possible movements (`0` for no movement, `1-4` for movement in specific directions).
 
 With these components added, your agent is fully configured and ready for testing and training.
 Here is what is should look like for every components:
@@ -716,6 +728,14 @@ Here are the steps to implement the heuristic method both in Blueprint and C++:
 
 In order for the Agent to use the heuristic, you will need to set the **Behavior Type** to
 "Heuristic Only" in the **Behavior Parameters** of the BP_RollerAgent in the Outliner.
+
+.. warning::
+
+   Do not forget to add the Cube Target reference to the agent in the level.
+   See below picture as a reference
+
+.. image:: _images/roller_agent_level_target_ref.png
+   :alt: RollerAgent level Target reference
 
 Press **Play** to run the scene and use the arrow keys to move the Agent around the platform.
 Make sure that there are no errors displayed in the Unreal Editor's Output Log and that the Agent
