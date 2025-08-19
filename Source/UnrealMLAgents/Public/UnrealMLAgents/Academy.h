@@ -8,7 +8,7 @@
 #include "Communicator/RpcCommunicator.h"
 #include "RecursionChecker.h"
 #include "UnrealMLAgents/Policies/RemotePolicy.h"
-#include "Tickable.h"
+#include "UnrealMLAgents/AcademyStepper.h"
 #include "Academy.generated.h"
 
 // Define the delegate types
@@ -66,41 +66,11 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnEnvironmentReset);
  * This class is designed as a singleton, ensuring that only one instance of the Academy is active at any time.
  */
 UCLASS()
-class UNREALMLAGENTS_API UAcademy : public UObject, public FTickableGameObject
+class UNREALMLAGENTS_API UAcademy : public UObject
 {
 	GENERATED_BODY()
 
 public:
-	/**
-	 * @brief Updates the Academy at each tick, stepping through the environment's simulation.
-	 *
-	 * This method is called every frame (or every tick) and updates the simulation by stepping through
-	 * the environment. It also processes agent actions and observations as needed.
-	 *
-	 * @param DeltaTime The time passed since the last frame, used to control the tick rate of the simulation.
-	 */
-	virtual void Tick(float DeltaTime) override;
-
-	/**
-	 * @brief Checks if the Academy is currently tickable.
-	 *
-	 * Determines whether the Academy should be ticked in the current frame. This is used to control when
-	 * the Academy should update its internal state.
-	 *
-	 * @return True if the Academy should be updated every tick, false otherwise.
-	 */
-	virtual bool IsTickable() const override;
-
-	/**
-	 * @brief Retrieves the statistical ID used for performance monitoring.
-	 *
-	 * This method is used for tracking performance metrics within the simulation, allowing the Academy
-	 * to report its usage to Unreal Engine’s stat system.
-	 *
-	 * @return The stat ID used for performance tracking.
-	 */
-	virtual TStatId GetStatId() const override;
-
 	/// Total number of steps taken in the simulation since the Academy started.
 	int32 TotalStepCount;
 
@@ -145,9 +115,10 @@ public:
 	void Dispose();
 
 	/**
-	 * @brief Steps through the environment, advancing the simulation.
+	 * @brief Advances the environment by one simulation step.
 	 *
-	 * This method processes a single simulation step, updating the environment and triggering agent actions.
+	 * Called automatically by a hidden AAcademyStepper Actor when automatic stepping is enabled,
+	 * or can be called manually in custom workflows.
 	 */
 	void EnvironmentStep();
 
@@ -168,6 +139,24 @@ public:
 	 * @return True if the communicator is active, false otherwise.
 	 */
 	bool IsCommunicatorOn();
+
+	/**
+	 * @brief Enable or disable Unity-style automatic stepping driven by a hidden Actor ticking in physics.
+	 * @param bEnable True to enable, false to disable.
+	 */
+	void SetAutomaticSteppingEnabled(bool bEnable);
+
+	/**
+	 * @brief True if a stepper Actor is currently managing physics-phase stepping.
+	 */
+	bool IsAutomaticSteppingEnabled() const { return StepperActor.IsValid(); }
+
+	/**
+	 * @brief Ownership check used by the stepper to avoid leaks across world transitions.
+	 * @param MaybeOwner Any UObject that claims to be the current stepper (Actor or Component).
+	 * @return True if the provided object belongs to this Academy’s stepper Actor.
+	 */
+	bool IsStepperOwner(const UObject* MaybeOwner) const;
 
 	// Declare events related to agent and environment lifecycle.
 
@@ -247,15 +236,35 @@ private:
 	/// Whether the Academy has been fully initialized.
 	bool bInitialized;
 
-	/// Whether stepping through the environment is enabled.
-	bool bEnableStepping;
-
 	/// Whether the first reset has occurred.
 	bool bHadFirstReset;
 
 	/// Communicator used for interacting with remote agents or policies.
 	UPROPERTY()
 	URpcCommunicator* RpcCommunicator;
+
+	// ---------- Unity-like automatic stepping support ----------
+
+	/**
+	 * @brief Spawn the hidden stepper Actor and start physics-phase stepping.
+	 */
+	void EnableAutomaticStepping();
+
+	/**
+	 * @brief Destroy the stepper Actor and stop automatic stepping.
+	 */
+	void DisableAutomaticStepping();
+
+	/**
+	 * @brief Resolve a suitable UWorld (PIE or Game) to spawn the stepper into.
+	 */
+	UWorld* ResolveGameWorld() const;
+
+	/** @brief Cached stepper Actor (hidden, transient). */
+	TWeakObjectPtr<class AAcademyStepper> StepperActor;
+
+	/** @brief World that owns the stepper (used for validation). */
+	TWeakObjectPtr<UWorld> OwningWorld;
 
 	/**
 	 * @brief Lazily initializes the Academy.

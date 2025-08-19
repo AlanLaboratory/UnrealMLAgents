@@ -1,6 +1,9 @@
 // Copyright © 2025 Stephane Capponi and individual contributors. All Rights Reserved.
 
 #include "UnrealMLAgents/Academy.h"
+#include "UnrealMLAgents/AcademyStepper.h"
+#include "Engine/Engine.h"
+#include "Engine/World.h"
 
 #if WITH_EDITOR
 	#include "Editor/EditorEngine.h"
@@ -20,22 +23,6 @@ UAcademy::UAcademy()
 #if WITH_EDITOR
 	FEditorDelegates::EndPIE.AddUObject(this, &UAcademy::Dispose);
 #endif
-}
-
-// Make the Academy Tick
-bool UAcademy::IsTickable() const
-{
-	return true;
-}
-
-void UAcademy::Tick(float DeltaTime)
-{
-	EnvironmentStep();
-}
-
-TStatId UAcademy::GetStatId() const
-{
-	RETURN_QUICK_DECLARE_CYCLE_STAT(ThisClassName, STATGROUP_Tickables);
 }
 
 UAcademy* UAcademy::GetInstance()
@@ -77,7 +64,7 @@ void UAcademy::InitializeEnvironment()
 {
 	UE_LOG(LogTemp, Log, TEXT("Initialize Environement"));
 
-	bEnableStepping = true;
+	SetAutomaticSteppingEnabled(true);
 	ParseCommandLineArgs();
 
 	RpcCommunicator = NewObject<URpcCommunicator>();
@@ -191,6 +178,8 @@ void UAcademy::Dispose()
 void UAcademy::Dispose(bool bIsSimulating)
 {
 
+	DisableAutomaticStepping();
+
 	// Signal to listeners that the academy is being destroyed now
 	if (OnDestroyAction.IsBound())
 	{
@@ -245,4 +234,102 @@ void UAcademy::ResetActions()
 bool UAcademy::IsCommunicatorOn()
 {
 	return RpcCommunicator != nullptr;
+}
+
+/** @brief Find a suitable PIE/Game world to spawn the stepper into. */
+UWorld* UAcademy::ResolveGameWorld() const
+{
+	if (OwningWorld.IsValid())
+	{
+		return OwningWorld.Get();
+	}
+
+	if (GEngine)
+	{
+		// Prefer PIE or Game worlds
+		for (const FWorldContext& Ctx : GEngine->GetWorldContexts())
+		{
+			if (Ctx.World() && (Ctx.WorldType == EWorldType::PIE || Ctx.WorldType == EWorldType::Game))
+			{
+				return Ctx.World();
+			}
+		}
+		// Fallback to any valid world
+		for (const FWorldContext& Ctx : GEngine->GetWorldContexts())
+		{
+			if (Ctx.World())
+			{
+				return Ctx.World();
+			}
+		}
+	}
+	return nullptr;
+}
+
+/** @brief Spawn the hidden stepper Actor and begin physics-phase stepping. */
+void UAcademy::EnableAutomaticStepping()
+{
+	if (StepperActor.IsValid())
+	{
+		return; // already enabled
+	}
+
+	if (UWorld* World = ResolveGameWorld())
+	{
+		OwningWorld = World;
+
+		FActorSpawnParameters Params;
+		Params.Name = TEXT("AcademyFixedUpdateStepper");
+		Params.ObjectFlags |= RF_Transient;
+		Params.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+
+		AAcademyStepper* NewStepper = World->SpawnActor<AAcademyStepper>(Params);
+		if (NewStepper)
+		{
+			NewStepper->SetActorHiddenInGame(true);
+			StepperActor = NewStepper;
+			UE_LOG(LogTemp, Log, TEXT("Automatic stepping enabled using AAcademyStepper."));
+		}
+		else
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Failed to spawn AAcademyStepper. Automatic stepping disabled."));
+		}
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("No valid world found; cannot enable automatic stepping yet."));
+	}
+}
+
+/** @brief Destroy the stepper Actor and stop automatic stepping. */
+void UAcademy::DisableAutomaticStepping()
+{
+	if (StepperActor.IsValid())
+	{
+		if (AActor* Actor = StepperActor.Get())
+		{
+			Actor->Destroy();
+		}
+		StepperActor.Reset();
+	}
+}
+
+/** @brief Public API to flip automatic stepping on/off. */
+void UAcademy::SetAutomaticSteppingEnabled(bool bEnable)
+{
+	if (bEnable)
+		EnableAutomaticStepping();
+	else
+		DisableAutomaticStepping();
+}
+
+/** @brief Ownership check used by the stepper to self-destruct if stale. */
+bool UAcademy::IsStepperOwner(const UObject* MaybeOwner) const
+{
+	if (!MaybeOwner)
+	{
+		return false;
+	}
+	const AActor* OwningActor = Cast<const AActor>(MaybeOwner);
+	return StepperActor.IsValid() && (StepperActor.Get() == OwningActor);
 }
